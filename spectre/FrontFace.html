@@ -1,0 +1,186 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>FrontFace class / spectre Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="spectre" data-type="FrontFace">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../spectre.html">spectre</a> &rsaquo; <a href="../spectre/FrontFace.html">FrontFace</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+</div>
+<div class="content">
+        <h2><strong>FrontFace</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<p>Defines the winding used to determine whether a triangle is front or back facing.</p>
+<pre class="source">
+class FrontFace {
+ //---------------------------------------------------------------------
+ // Serialization names
+ //---------------------------------------------------------------------
+
+ /// String representation of [Clockwise].
+ static const String _clockwiseName = 'FrontFace.Clockwise';
+ /// String representation of [CounterClockwise].
+ static const String _counterClockwiseName = 'FrontFace.CounterClockwise';
+
+ //---------------------------------------------------------------------
+ // Enumerations
+ //---------------------------------------------------------------------
+
+ /// Triangles are considered front-facing if its vertices are clockwise.
+ static const int Clockwise = WebGLRenderingContext.CW;
+ /// Triangles are considered front-facing if its vertices are counter-clockwise.
+ static const int CounterClockwise = WebGLRenderingContext.CCW;
+
+ //---------------------------------------------------------------------
+ // Class methods
+ //---------------------------------------------------------------------
+
+ /// Convert from a [String] name to the corresponding [FrontFace] enumeration.
+ static int parse(String name) {
+   if (name == _clockwiseName) {
+     return Clockwise;
+   } else if (name == _counterClockwiseName) {
+     return CounterClockwise;
+   }
+
+   assert(false);
+   return Clockwise;
+ }
+
+ /// Converts the [Blend] enumeration to a [String].
+ static String stringify(int value) {
+   if (value == Clockwise) {
+     return _clockwiseName;
+   } else if (value == CounterClockwise) {
+     return _counterClockwiseName;
+   }
+
+   assert(false);
+   return _clockwiseName;
+ }
+
+ /// Checks whether the value is a valid enumeration.
+ ///
+ /// Should be gotten rid of when enums are supported properly.
+ static bool isValid(int value) {
+   return ((value == Clockwise) || (value == CounterClockwise));
+ }
+}
+</pre>
+</div>
+<div>
+<h3>Static Properties</h3>
+<div class="field"><h4 id="Clockwise">
+<button class="show-code">Code</button>
+const int         <strong>Clockwise</strong> <a class="anchor-link"
+            href="#Clockwise"
+            title="Permalink to FrontFace.Clockwise">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+Clockwise = WebGLRenderingContext.CW
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="CounterClockwise">
+<button class="show-code">Code</button>
+const int         <strong>CounterClockwise</strong> <a class="anchor-link"
+            href="#CounterClockwise"
+            title="Permalink to FrontFace.CounterClockwise">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+CounterClockwise = WebGLRenderingContext.CCW
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Static Methods</h3>
+<div class="method"><h4 id="parse">
+<button class="show-code">Code</button>
+int <strong>parse</strong>(String name) <a class="anchor-link" href="#parse"
+              title="Permalink to FrontFace.parse">#</a></h4>
+<div class="doc">
+<p>Convert from a <code>String</code> name to the corresponding <a class="crossref" href="../spectre/FrontFace.html">FrontFace</a> enumeration.</p>
+<pre class="source">
+static int parse(String name) {
+ if (name == _clockwiseName) {
+   return Clockwise;
+ } else if (name == _counterClockwiseName) {
+   return CounterClockwise;
+ }
+
+ assert(false);
+ return Clockwise;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="stringify">
+<button class="show-code">Code</button>
+String <strong>stringify</strong>(int value) <a class="anchor-link" href="#stringify"
+              title="Permalink to FrontFace.stringify">#</a></h4>
+<div class="doc">
+<p>Converts the <a class="crossref" href="../spectre/Blend.html">Blend</a> enumeration to a <code>String</code>.</p>
+<pre class="source">
+static String stringify(int value) {
+ if (value == Clockwise) {
+   return _clockwiseName;
+ } else if (value == CounterClockwise) {
+   return _counterClockwiseName;
+ }
+
+ assert(false);
+ return _clockwiseName;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="isValid">
+<button class="show-code">Code</button>
+bool <strong>isValid</strong>(int value) <a class="anchor-link" href="#isValid"
+              title="Permalink to FrontFace.isValid">#</a></h4>
+<div class="doc">
+<p>Checks whether the value is a valid enumeration.</p>
+<p>Should be gotten rid of when enums are supported properly.</p>
+<pre class="source">
+static bool isValid(int value) {
+ return ((value == Clockwise) || (value == CounterClockwise));
+}
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        
+        <div class="footer">
+          
+        </div>
+        <script async src="../client-live-nav.js"></script>
+        </body></html>
+        

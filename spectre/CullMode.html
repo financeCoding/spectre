@@ -1,0 +1,226 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>CullMode class / spectre Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="spectre" data-type="CullMode">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../spectre.html">spectre</a> &rsaquo; <a href="../spectre/CullMode.html">CullMode</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+</div>
+<div class="content">
+        <h2><strong>CullMode</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<p>Indicates whether triangles facing a particular direction are drawn.</p>
+<pre class="source">
+class CullMode {
+ //---------------------------------------------------------------------
+ // Serialization names
+ //---------------------------------------------------------------------
+
+ /// String representation of [None].
+ static const String _noneName = 'CullMode.None';
+ /// String representation of [Front].
+ static const String _frontName = 'CullMode.Front';
+ /// String representation of [Back].
+ static const String _backName = 'CullMode.Back';
+
+ //---------------------------------------------------------------------
+ // Enumerations
+ //---------------------------------------------------------------------
+
+ /// Always draw all triangles.
+ static const int None = 0;
+ /// Do not draw triangles that are front-facing.
+ static const int Front = WebGLRenderingContext.FRONT;
+ /// Do not draw triangles that are back-facing.
+ static const int Back = WebGLRenderingContext.BACK;
+
+ //---------------------------------------------------------------------
+ // Class methods
+ //---------------------------------------------------------------------
+
+ /// Convert from a [String] name to the corresponding [CullMode] enumeration.
+ static int parse(String name) {
+   if (name == _noneName) {
+     return None;
+   } else if (name == _frontName) {
+     return Front;
+   } else if (name == _backName) {
+     return Back;
+   }
+
+   assert(false);
+   return None;
+ }
+
+ /// Converts the [CullMode] enumeration to a [String].
+ static String stringify(int value) {
+   if (value == None) {
+     return _noneName;
+   } else if (value == Front) {
+     return _frontName;
+   } else if (value == Back) {
+     return _backName;
+   }
+
+   assert(false);
+   return _noneName;
+ }
+
+ /// Checks whether the value is a valid enumeration.
+ ///
+ /// Should be gotten rid of when enums are supported properly.
+ static bool isValid(int value) {
+   if (value == None) {
+     return true;
+   } else if (value == Front) {
+     return true;
+   } else if (value == Back) {
+     return true;
+   }
+
+   return false;
+ }
+}
+</pre>
+</div>
+<div>
+<h3>Static Properties</h3>
+<div class="field"><h4 id="Back">
+<button class="show-code">Code</button>
+const int         <strong>Back</strong> <a class="anchor-link"
+            href="#Back"
+            title="Permalink to CullMode.Back">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+Back = WebGLRenderingContext.BACK
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Front">
+<button class="show-code">Code</button>
+const int         <strong>Front</strong> <a class="anchor-link"
+            href="#Front"
+            title="Permalink to CullMode.Front">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+Front = WebGLRenderingContext.FRONT
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="None">
+<button class="show-code">Code</button>
+const int         <strong>None</strong> <a class="anchor-link"
+            href="#None"
+            title="Permalink to CullMode.None">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+None = 0
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Static Methods</h3>
+<div class="method"><h4 id="parse">
+<button class="show-code">Code</button>
+int <strong>parse</strong>(String name) <a class="anchor-link" href="#parse"
+              title="Permalink to CullMode.parse">#</a></h4>
+<div class="doc">
+<p>Convert from a <code>String</code> name to the corresponding <a class="crossref" href="../spectre/CullMode.html">CullMode</a> enumeration.</p>
+<pre class="source">
+static int parse(String name) {
+ if (name == _noneName) {
+   return None;
+ } else if (name == _frontName) {
+   return Front;
+ } else if (name == _backName) {
+   return Back;
+ }
+
+ assert(false);
+ return None;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="stringify">
+<button class="show-code">Code</button>
+String <strong>stringify</strong>(int value) <a class="anchor-link" href="#stringify"
+              title="Permalink to CullMode.stringify">#</a></h4>
+<div class="doc">
+<p>Converts the <a class="crossref" href="../spectre/CullMode.html">CullMode</a> enumeration to a <code>String</code>.</p>
+<pre class="source">
+static String stringify(int value) {
+ if (value == None) {
+   return _noneName;
+ } else if (value == Front) {
+   return _frontName;
+ } else if (value == Back) {
+   return _backName;
+ }
+
+ assert(false);
+ return _noneName;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="isValid">
+<button class="show-code">Code</button>
+bool <strong>isValid</strong>(int value) <a class="anchor-link" href="#isValid"
+              title="Permalink to CullMode.isValid">#</a></h4>
+<div class="doc">
+<p>Checks whether the value is a valid enumeration.</p>
+<p>Should be gotten rid of when enums are supported properly.</p>
+<pre class="source">
+static bool isValid(int value) {
+ if (value == None) {
+   return true;
+ } else if (value == Front) {
+   return true;
+ } else if (value == Back) {
+   return true;
+ }
+
+ return false;
+}
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        
+        <div class="footer">
+          
+        </div>
+        <script async src="../client-live-nav.js"></script>
+        </body></html>
+        

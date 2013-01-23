@@ -1,0 +1,171 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>PropertyContainer abstract class / property_map Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="property_map" data-type="PropertyContainer">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../property_map.html">property_map</a> &rsaquo; <a href="../property_map/PropertyContainer.html">PropertyContainer</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+</div>
+<div class="content">
+        <h2><strong>PropertyContainer</strong>
+          abstract class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<pre class="source">
+abstract class PropertyContainer implements Serializable {
+
+ /**
+  * Returns the passed value if it is a an acceptable entry for a
+  * PropertyContainer. If the value is a Map or a List, it will be converted
+  * into a PropertyMap or a PropertyList (recursively). If the value is
+  * not a Map, List, String, bool, num, null, or an instance implementing
+  * Serializable, it throws an exception.
+  */
+ static dynamic validate(dynamic value) {
+   /*
+   if (value is num ||
+       value is bool ||
+       value is String ||
+       value == null ||
+       value is Serializable) {
+     return value;
+   }
+   else if (value is List) {
+     return new PropertyList.from(value);
+   }
+   else if (value is Map) {
+     return new PropertyMap.from(value);
+   }
+
+   var mirror = reflect(value);
+   throw 'Value not supported on a PropertyContainer. Trying to save an '
+   'instance of ${mirror.type.simpleName}. Only numbers, booleans, Strings, '
+   'classes that implement Serializable and Lists and Maps of those '
+   'types are allowed as entries on a PropertyContainer.';
+   return null;
+   */
+   if ((value is PropertyMap) || (value is PropertyList)) {
+     // Already good.
+     return value;
+   }
+   if (value is List) {
+     return new PropertyList.from(value);
+   } else if (value is Map) {
+     return new PropertyMap.from(value);
+   } else {
+     return value;
+   }
+ }
+
+ /**
+  * Internal non static version of validate(). Needed because classes that
+  * extend this class may implement noSuchMethod.
+  */
+ dynamic _validate(dynamic value) =&gt; validate(value);
+}
+</pre>
+</div>
+<h3>Subclasses</h3>
+<p>
+<span class="type-box"><span class="icon-class"></span><a href="../property_map/PropertyList.html">PropertyList</a></span>, <span class="type-box"><span class="icon-class"></span><a href="../property_map/PropertyMap.html">PropertyMap</a></span></p>
+<h3>Implements</h3>
+<p>
+<span class="type-box"><span class="icon-class"></span><a href="../property_map/Serializable.html">Serializable</a></span></p>
+<div>
+<h3>Static Methods</h3>
+<div class="method"><h4 id="validate">
+<button class="show-code">Code</button>
+<strong>validate</strong>(value) <a class="anchor-link" href="#validate"
+              title="Permalink to PropertyContainer.validate">#</a></h4>
+<div class="doc">
+<p>Returns the passed value if it is a an acceptable entry for a
+PropertyContainer. If the value is a Map or a List, it will be converted
+into a PropertyMap or a PropertyList (recursively). If the value is
+not a Map, List, String, bool, num, null, or an instance implementing
+Serializable, it throws an exception.</p>
+<pre class="source">
+static dynamic validate(dynamic value) {
+ /*
+ if (value is num ||
+     value is bool ||
+     value is String ||
+     value == null ||
+     value is Serializable) {
+   return value;
+ }
+ else if (value is List) {
+   return new PropertyList.from(value);
+ }
+ else if (value is Map) {
+   return new PropertyMap.from(value);
+ }
+
+ var mirror = reflect(value);
+ throw 'Value not supported on a PropertyContainer. Trying to save an '
+ 'instance of ${mirror.type.simpleName}. Only numbers, booleans, Strings, '
+ 'classes that implement Serializable and Lists and Maps of those '
+ 'types are allowed as entries on a PropertyContainer.';
+ return null;
+ */
+ if ((value is PropertyMap) || (value is PropertyList)) {
+   // Already good.
+   return value;
+ }
+ if (value is List) {
+   return new PropertyList.from(value);
+ } else if (value is Map) {
+   return new PropertyMap.from(value);
+ } else {
+   return value;
+ }
+}
+</pre>
+</div>
+</div>
+</div>
+<div class="inherited">
+<h3>Methods</h3>
+<div class="method inherited"><h4 id="fromJson">
+abstract void <strong>fromJson</strong>(json) <a class="anchor-link" href="#fromJson"
+              title="Permalink to PropertyContainer.fromJson">#</a></h4>
+<div class="inherited-from">inherited from <a href="../property_map/Serializable.html">Serializable</a> </div><div class="doc">
+</div>
+</div>
+<div class="method inherited"><h4 id="toJson">
+abstract String <strong>toJson</strong>() <a class="anchor-link" href="#toJson"
+              title="Permalink to PropertyContainer.toJson">#</a></h4>
+<div class="inherited-from">inherited from <a href="../property_map/Serializable.html">Serializable</a> </div><div class="doc">
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        
+        <div class="footer">
+          
+        </div>
+        <script async src="../client-live-nav.js"></script>
+        </body></html>
+        

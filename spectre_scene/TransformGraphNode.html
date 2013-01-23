@@ -1,0 +1,158 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>TransformGraphNode class / spectre_scene Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="spectre_scene" data-type="TransformGraphNode">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../spectre_scene.html">spectre_scene</a> &rsaquo; <a href="../spectre_scene/TransformGraphNode.html">TransformGraphNode</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+</div>
+<div class="content">
+        <h2><strong>TransformGraphNode</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<pre class="source">
+class TransformGraphNode {
+ TransformGraphNode parent;
+ int childCount;
+ int childCountSort;
+ mat4 localTransform;
+ mat4 worldTransform;
+ Float32Array worldTransformArray;
+ TransformGraphNode._internal() {
+   localTransform = new mat4.identity();
+   worldTransform = new mat4.identity();
+   worldTransformArray = new Float32Array(16);
+   reset();
+ }
+ void reset() {
+   parent = null;
+   childCount = 0;
+   childCountSort = 0;
+ }
+}
+</pre>
+</div>
+<div>
+<h3>Properties</h3>
+<div class="field"><h4 id="childCount">
+<button class="show-code">Code</button>
+int         <strong>childCount</strong> <a class="anchor-link"
+            href="#childCount"
+            title="Permalink to TransformGraphNode.childCount">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+childCount
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="childCountSort">
+<button class="show-code">Code</button>
+int         <strong>childCountSort</strong> <a class="anchor-link"
+            href="#childCountSort"
+            title="Permalink to TransformGraphNode.childCountSort">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+childCountSort
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="localTransform">
+<button class="show-code">Code</button>
+<a href="../vector_math_browser/mat4.html">mat4</a>         <strong>localTransform</strong> <a class="anchor-link"
+            href="#localTransform"
+            title="Permalink to TransformGraphNode.localTransform">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+localTransform
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="parent">
+<button class="show-code">Code</button>
+<a href="../spectre_scene/TransformGraphNode.html">TransformGraphNode</a>         <strong>parent</strong> <a class="anchor-link"
+            href="#parent"
+            title="Permalink to TransformGraphNode.parent">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+parent
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="worldTransform">
+<button class="show-code">Code</button>
+<a href="../vector_math_browser/mat4.html">mat4</a>         <strong>worldTransform</strong> <a class="anchor-link"
+            href="#worldTransform"
+            title="Permalink to TransformGraphNode.worldTransform">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+worldTransform
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="worldTransformArray">
+<button class="show-code">Code</button>
+Float32Array         <strong>worldTransformArray</strong> <a class="anchor-link"
+            href="#worldTransformArray"
+            title="Permalink to TransformGraphNode.worldTransformArray">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+worldTransformArray
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Methods</h3>
+<div class="method"><h4 id="reset">
+<button class="show-code">Code</button>
+void <strong>reset</strong>() <a class="anchor-link" href="#reset"
+              title="Permalink to TransformGraphNode.reset">#</a></h4>
+<div class="doc">
+<pre class="source">
+void reset() {
+ parent = null;
+ childCount = 0;
+ childCountSort = 0;
+}
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        
+        <div class="footer">
+          
+        </div>
+        <script async src="../client-live-nav.js"></script>
+        </body></html>
+        

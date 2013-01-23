@@ -1,0 +1,231 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>BlendOperation class / spectre Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="spectre" data-type="BlendOperation">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../spectre.html">spectre</a> &rsaquo; <a href="../spectre/BlendOperation.html">BlendOperation</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+</div>
+<div class="content">
+        <h2><strong>BlendOperation</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<pre class="source">
+class BlendOperation {
+ //---------------------------------------------------------------------
+ // Serialization names
+ //---------------------------------------------------------------------
+
+ /// String representation of [Add].
+ static const String _addName = 'BlendOperation.Add';
+ /// String representation of [Subtract].
+ static const String _reverseSubtractName = 'BlendOperation.ReverseSubtract';
+ /// String representation of [Subtract].
+ static const String _subtractName = 'BlendOperation.Subtract';
+
+ //---------------------------------------------------------------------
+ // Enumerations
+ //---------------------------------------------------------------------
+
+ /// The result is the destination added to the source.
+ ///
+ ///     Result = (Source Color * Source Blend) + (Destination Color * Destination Blend)
+ static const int Add = WebGLRenderingContext.FUNC_ADD;
+ /// The result is the source subtracted from the destination.
+ ///
+ ///     Result = (Destination Color * Destination Blend) - (Source Color * Source Blend)
+ static const int ReverseSubtract = WebGLRenderingContext.FUNC_REVERSE_SUBTRACT;
+ /// The result is the destination subtracted from the source.
+ ///
+ ///     Result = (Source Color * Source Blend) - (Destination Color * Destination Blend)
+ static const int Subtract = WebGLRenderingContext.FUNC_SUBTRACT;
+
+ //---------------------------------------------------------------------
+ // Class methods
+ //---------------------------------------------------------------------
+
+ /// Convert from a [String] name to the corresponding [BlendOperation] enumeration.
+ static int parse(String name) {
+   if (name == _addName) {
+     return Add;
+   } else if (name == _reverseSubtractName) {
+     return ReverseSubtract;
+   } else if (name == _subtractName) {
+     return Subtract;
+   }
+
+   assert(false);
+   return Add;
+ }
+
+ /// Converts the [BlendOperation] enumeration to a [String].
+ static String stringify(int value) {
+   if (value == Add) {
+     return _addName;
+   } else if (value == ReverseSubtract) {
+     return _reverseSubtractName;
+   } else if (value == Subtract) {
+     return _subtractName;
+   }
+
+   assert(false);
+   return _addName;
+ }
+
+ /// Checks whether the value is a valid enumeration.
+ ///
+ /// Should be gotten rid of when enums are supported properly.
+ static bool isValid(int value) {
+   if (value == Add) {
+     return true;
+   } else if (value == ReverseSubtract) {
+     return true;
+   } else if (value == Subtract) {
+     return true;
+   }
+
+   return false;
+ }
+}
+</pre>
+</div>
+<div>
+<h3>Static Properties</h3>
+<div class="field"><h4 id="Add">
+<button class="show-code">Code</button>
+const int         <strong>Add</strong> <a class="anchor-link"
+            href="#Add"
+            title="Permalink to BlendOperation.Add">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+Add = WebGLRenderingContext.FUNC_ADD
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="ReverseSubtract">
+<button class="show-code">Code</button>
+const int         <strong>ReverseSubtract</strong> <a class="anchor-link"
+            href="#ReverseSubtract"
+            title="Permalink to BlendOperation.ReverseSubtract">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+ReverseSubtract = WebGLRenderingContext.FUNC_REVERSE_SUBTRACT
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Subtract">
+<button class="show-code">Code</button>
+const int         <strong>Subtract</strong> <a class="anchor-link"
+            href="#Subtract"
+            title="Permalink to BlendOperation.Subtract">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+Subtract = WebGLRenderingContext.FUNC_SUBTRACT
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Static Methods</h3>
+<div class="method"><h4 id="parse">
+<button class="show-code">Code</button>
+int <strong>parse</strong>(String name) <a class="anchor-link" href="#parse"
+              title="Permalink to BlendOperation.parse">#</a></h4>
+<div class="doc">
+<p>Convert from a <code>String</code> name to the corresponding <a class="crossref" href="../spectre/BlendOperation.html">BlendOperation</a> enumeration.</p>
+<pre class="source">
+static int parse(String name) {
+ if (name == _addName) {
+   return Add;
+ } else if (name == _reverseSubtractName) {
+   return ReverseSubtract;
+ } else if (name == _subtractName) {
+   return Subtract;
+ }
+
+ assert(false);
+ return Add;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="stringify">
+<button class="show-code">Code</button>
+String <strong>stringify</strong>(int value) <a class="anchor-link" href="#stringify"
+              title="Permalink to BlendOperation.stringify">#</a></h4>
+<div class="doc">
+<p>Converts the <a class="crossref" href="../spectre/BlendOperation.html">BlendOperation</a> enumeration to a <code>String</code>.</p>
+<pre class="source">
+static String stringify(int value) {
+ if (value == Add) {
+   return _addName;
+ } else if (value == ReverseSubtract) {
+   return _reverseSubtractName;
+ } else if (value == Subtract) {
+   return _subtractName;
+ }
+
+ assert(false);
+ return _addName;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="isValid">
+<button class="show-code">Code</button>
+bool <strong>isValid</strong>(int value) <a class="anchor-link" href="#isValid"
+              title="Permalink to BlendOperation.isValid">#</a></h4>
+<div class="doc">
+<p>Checks whether the value is a valid enumeration.</p>
+<p>Should be gotten rid of when enums are supported properly.</p>
+<pre class="source">
+static bool isValid(int value) {
+ if (value == Add) {
+   return true;
+ } else if (value == ReverseSubtract) {
+   return true;
+ } else if (value == Subtract) {
+   return true;
+ }
+
+ return false;
+}
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        
+        <div class="footer">
+          
+        </div>
+        <script async src="../client-live-nav.js"></script>
+        </body></html>
+        

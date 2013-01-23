@@ -1,0 +1,369 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>SpectreBuffer class / spectre Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="spectre" data-type="SpectreBuffer">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../spectre.html">spectre</a> &rsaquo; <a href="../spectre/SpectreBuffer.html">SpectreBuffer</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+</div>
+<div class="content">
+        <h2><strong>SpectreBuffer</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<p>A <a class="crossref" href="../spectre/SpectreBuffer.html#SpectreBuffer">SpectreBuffer</a> represents a buffer of memory on the GPU.
+A <a class="crossref" href="../spectre/SpectreBuffer.html#SpectreBuffer">SpectreBuffer</a> can only be constructed by constructing an <a class="crossref" href="../spectre/IndexBuffer.html">IndexBuffer</a>
+or a <a class="crossref" href="../spectre/VertexBuffer.html">VertexBuffer</a>.</p>
+<pre class="source">
+class SpectreBuffer extends DeviceChild {
+ /** Hint that buffer data is used once and then discarded. */
+ static const UsageStream = WebGLRenderingContext.STREAM_DRAW;
+ /** Hint that buffer data is used few times and then discarded. */
+ static const UsageDynamic = WebGLRenderingContext.DYNAMIC_DRAW;
+ /** Hint that buffer data is used many times and never discarded. */
+ static const UsageStatic = WebGLRenderingContext.STATIC_DRAW;
+ WebGLBuffer _deviceBuffer;
+ int _bindTarget;
+ int _bindingParam;
+ int _usage = UsageDynamic;
+ int _size = 0;
+
+ SpectreBuffer(String name, GraphicsDevice device)
+     : super._internal(name, device) {
+ }
+
+ void _createDeviceState() {
+   super._createDeviceState();
+   _deviceBuffer = device.gl.createBuffer();
+ }
+
+ void _destroyDeviceState() {
+   if (_deviceBuffer != null) {
+     device.gl.deleteBuffer(_deviceBuffer);
+   }
+   _deviceBuffer = null;
+   super._destroyDeviceState();
+ }
+
+ WebGLBuffer _pushBind() {
+   var oldBind = device.gl.getParameter(_bindingParam);
+   device.gl.bindBuffer(_bindTarget, _deviceBuffer);
+   return oldBind;
+ }
+
+ void _bind() {
+   device.gl.bindBuffer(_bindTarget, _deviceBuffer);
+ }
+
+ void _popBind(WebGLBuffer oldBind) {
+   device.gl.bindBuffer(_bindTarget, oldBind);
+ }
+
+ void _uploadData(dynamic data, int usage) {
+   _size = data.byteLength;
+   _usage = usage;
+   device.gl.bufferData(_bindTarget, data, usage);
+ }
+
+ /** Resize buffer to fit [data]. Upload [data] with [usage] hint. */
+ void uploadData(dynamic data, int usage) {
+   if (data == null) {
+     throw new ArgumentError('data cannot be null.');
+   }
+   var oldBind = _pushBind();
+   _uploadData(data, usage);
+   _popBind(oldBind);
+ }
+
+ void _uploadSubData(int offset, dynamic data) {
+   device.gl.bufferSubData(_bindTarget, offset, data);
+ }
+
+ /** Starting at [offset], upload [data] into buffer.
+  * The length of [data] + offset must not exceed the size of the buffer
+  */
+ void uploadSubData(int offset, dynamic data) {
+   if (data == null) {
+     throw new ArgumentError('data cannot be null.');
+   }
+   if (offset + data.byteLength &gt; _size) {
+     throw new RangeError('data is too large ${data.byteLength}');
+   }
+   var oldBind = _pushBind();
+   _uploadSubData(offset, data);
+   _popBind(oldBind);
+ }
+
+ void _allocate(int size, int usage) {
+   _size = size;
+   _usage = usage;
+   device.gl.bufferData(_bindTarget, size, usage);
+ }
+
+ /** Resize buffer to be [size] bytes with [usage] hint. */
+ void allocate(int size, int usage) {
+   if (size &lt;= 0) {
+     throw new ArgumentError('size must be &gt; 0');
+   }
+   var oldBind = _pushBind();
+   _allocate(size, usage);
+   _popBind(oldBind);
+ }
+
+ /** Query the size of the buffer */
+ int get size =&gt; _size;
+
+ /** Query the usage hint of the buffer */
+ int get usage =&gt; _usage;
+}
+</pre>
+</div>
+<h3>Extends</h3>
+<p>
+<span class="type-box"><span class="icon-class"></span><a href="../spectre/DeviceChild.html">DeviceChild</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>SpectreBuffer</strong></span></p>
+<h3>Subclasses</h3>
+<p>
+<span class="type-box"><span class="icon-class"></span><a href="../spectre/IndexBuffer.html">IndexBuffer</a></span>, <span class="type-box"><span class="icon-class"></span><a href="../spectre/VertexBuffer.html">VertexBuffer</a></span></p>
+<div>
+<h3>Static Properties</h3>
+<div class="field"><h4 id="UsageDynamic">
+<button class="show-code">Code</button>
+const         <strong>UsageDynamic</strong> <a class="anchor-link"
+            href="#UsageDynamic"
+            title="Permalink to SpectreBuffer.UsageDynamic">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+UsageDynamic = WebGLRenderingContext.DYNAMIC_DRAW
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="UsageStatic">
+<button class="show-code">Code</button>
+const         <strong>UsageStatic</strong> <a class="anchor-link"
+            href="#UsageStatic"
+            title="Permalink to SpectreBuffer.UsageStatic">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+UsageStatic = WebGLRenderingContext.STATIC_DRAW
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="UsageStream">
+<button class="show-code">Code</button>
+const         <strong>UsageStream</strong> <a class="anchor-link"
+            href="#UsageStream"
+            title="Permalink to SpectreBuffer.UsageStream">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+UsageStream = WebGLRenderingContext.STREAM_DRAW
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="SpectreBuffer">
+<button class="show-code">Code</button>
+new <strong>SpectreBuffer</strong>(String name, <a href="../spectre/GraphicsDevice.html">GraphicsDevice</a> device) <a class="anchor-link" href="#SpectreBuffer"
+              title="Permalink to SpectreBuffer.SpectreBuffer">#</a></h4>
+<div class="doc">
+<pre class="source">
+SpectreBuffer(String name, GraphicsDevice device)
+   : super._internal(name, device) {
+}
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Properties</h3>
+<div class="field inherited"><h4 id="device">
+<button class="show-code">Code</button>
+final <a href="../spectre/GraphicsDevice.html">GraphicsDevice</a>         <strong>device</strong> <a class="anchor-link"
+            href="#device"
+            title="Permalink to SpectreBuffer.device">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../spectre/DeviceChild.html">DeviceChild</a> </div><div class="doc">
+<pre class="source">
+device
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="name">
+<button class="show-code">Code</button>
+final String         <strong>name</strong> <a class="anchor-link"
+            href="#name"
+            title="Permalink to SpectreBuffer.name">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../spectre/DeviceChild.html">DeviceChild</a> </div><div class="doc">
+<pre class="source">
+name
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="size">
+<button class="show-code">Code</button>
+final int         <strong>size</strong> <a class="anchor-link"
+            href="#size"
+            title="Permalink to SpectreBuffer.size">#</a>
+        </h4>
+        <div class="doc">
+<p>Query the size of the buffer </p>
+<pre class="source">
+int get size =&gt; _size;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="usage">
+<button class="show-code">Code</button>
+final int         <strong>usage</strong> <a class="anchor-link"
+            href="#usage"
+            title="Permalink to SpectreBuffer.usage">#</a>
+        </h4>
+        <div class="doc">
+<p>Query the usage hint of the buffer </p>
+<pre class="source">
+int get usage =&gt; _usage;
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Methods</h3>
+<div class="method"><h4 id="allocate">
+<button class="show-code">Code</button>
+void <strong>allocate</strong>(int size, int usage) <a class="anchor-link" href="#allocate"
+              title="Permalink to SpectreBuffer.allocate">#</a></h4>
+<div class="doc">
+<p>Resize buffer to be 
+<span class="param">size</span> bytes with 
+<span class="param">usage</span> hint. </p>
+<pre class="source">
+void allocate(int size, int usage) {
+ if (size &lt;= 0) {
+   throw new ArgumentError('size must be &gt; 0');
+ }
+ var oldBind = _pushBind();
+ _allocate(size, usage);
+ _popBind(oldBind);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="fromJson">
+<button class="show-code">Code</button>
+void <strong>fromJson</strong>(a) <a class="anchor-link" href="#fromJson"
+              title="Permalink to SpectreBuffer.fromJson">#</a></h4>
+<div class="inherited-from">inherited from <a href="../spectre/DeviceChild.html">DeviceChild</a> </div><div class="doc">
+<pre class="source">
+void fromJson(dynamic a) {
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="toJson">
+<button class="show-code">Code</button>
+<strong>toJson</strong>() <a class="anchor-link" href="#toJson"
+              title="Permalink to SpectreBuffer.toJson">#</a></h4>
+<div class="inherited-from">inherited from <a href="../spectre/DeviceChild.html">DeviceChild</a> </div><div class="doc">
+<pre class="source">
+dynamic toJson() {
+ return '';
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="toString">
+<button class="show-code">Code</button>
+String <strong>toString</strong>() <a class="anchor-link" href="#toString"
+              title="Permalink to SpectreBuffer.toString">#</a></h4>
+<div class="inherited-from">inherited from <a href="../spectre/DeviceChild.html">DeviceChild</a> </div><div class="doc">
+<div class="inherited">
+<p>Returns a string representation of this object.</p>
+<div class="docs-inherited-from">docs inherited from Object </div></div>
+<pre class="source">
+String toString() =&gt; name;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="uploadData">
+<button class="show-code">Code</button>
+void <strong>uploadData</strong>(data, int usage) <a class="anchor-link" href="#uploadData"
+              title="Permalink to SpectreBuffer.uploadData">#</a></h4>
+<div class="doc">
+<p>Resize buffer to fit 
+<span class="param">data</span>. Upload 
+<span class="param">data</span> with 
+<span class="param">usage</span> hint. </p>
+<pre class="source">
+void uploadData(dynamic data, int usage) {
+ if (data == null) {
+   throw new ArgumentError('data cannot be null.');
+ }
+ var oldBind = _pushBind();
+ _uploadData(data, usage);
+ _popBind(oldBind);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="uploadSubData">
+<button class="show-code">Code</button>
+void <strong>uploadSubData</strong>(int offset, data) <a class="anchor-link" href="#uploadSubData"
+              title="Permalink to SpectreBuffer.uploadSubData">#</a></h4>
+<div class="doc">
+<p>Starting at 
+<span class="param">offset</span>, upload 
+<span class="param">data</span> into buffer.
+The length of 
+<span class="param">data</span> + offset must not exceed the size of the buffer</p>
+<pre class="source">
+void uploadSubData(int offset, dynamic data) {
+ if (data == null) {
+   throw new ArgumentError('data cannot be null.');
+ }
+ if (offset + data.byteLength &gt; _size) {
+   throw new RangeError('data is too large ${data.byteLength}');
+ }
+ var oldBind = _pushBind();
+ _uploadSubData(offset, data);
+ _popBind(oldBind);
+}
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        
+        <div class="footer">
+          
+        </div>
+        <script async src="../client-live-nav.js"></script>
+        </body></html>
+        

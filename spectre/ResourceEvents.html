@@ -1,0 +1,194 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>ResourceEvents class / spectre Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="spectre" data-type="ResourceEvents">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../spectre.html">spectre</a> &rsaquo; <a href="../spectre/ResourceEvents.html">ResourceEvents</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+</div>
+<div class="content">
+        <h2><strong>ResourceEvents</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<pre class="source">
+class ResourceEvents {
+ static final int TypeUpdate = 0x1;
+ static final int TypeUnloaded = 0x2;
+ Set&lt;ResourceEventCallback&gt; updated;
+ Set&lt;ResourceEventCallback&gt; unloaded;
+ ResourceEvents() {
+   updated = new Set&lt;ResourceEventCallback&gt;();
+   unloaded = new Set&lt;ResourceEventCallback&gt;();
+ }
+
+ void addUpdate(ResourceEventCallback cb) {
+   updated.add(cb);
+ }
+
+ void removeUpdate(ResourceEventCallback cb) {
+   updated.remove(cb);
+ }
+
+ int addUnloaded(ResourceEventCallback cb) {
+   unloaded.add(cb);
+ }
+
+ void removeUnloaded(ResourceEventCallback cb) {
+   unloaded.remove(cb);
+ }
+}
+</pre>
+</div>
+<div>
+<h3>Static Properties</h3>
+<div class="field"><h4 id="TypeUnloaded">
+<button class="show-code">Code</button>
+final int         <strong>TypeUnloaded</strong> <a class="anchor-link"
+            href="#TypeUnloaded"
+            title="Permalink to ResourceEvents.TypeUnloaded">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+TypeUnloaded = 0x2
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="TypeUpdate">
+<button class="show-code">Code</button>
+final int         <strong>TypeUpdate</strong> <a class="anchor-link"
+            href="#TypeUpdate"
+            title="Permalink to ResourceEvents.TypeUpdate">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+TypeUpdate = 0x1
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="ResourceEvents">
+<button class="show-code">Code</button>
+new <strong>ResourceEvents</strong>() <a class="anchor-link" href="#ResourceEvents"
+              title="Permalink to ResourceEvents.ResourceEvents">#</a></h4>
+<div class="doc">
+<pre class="source">
+ResourceEvents() {
+ updated = new Set&lt;ResourceEventCallback&gt;();
+ unloaded = new Set&lt;ResourceEventCallback&gt;();
+}
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Properties</h3>
+<div class="field"><h4 id="unloaded">
+<button class="show-code">Code</button>
+Set&lt;<a href="../spectre/ResourceEventCallback.html">ResourceEventCallback</a>&gt;         <strong>unloaded</strong> <a class="anchor-link"
+            href="#unloaded"
+            title="Permalink to ResourceEvents.unloaded">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+unloaded
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="updated">
+<button class="show-code">Code</button>
+Set&lt;<a href="../spectre/ResourceEventCallback.html">ResourceEventCallback</a>&gt;         <strong>updated</strong> <a class="anchor-link"
+            href="#updated"
+            title="Permalink to ResourceEvents.updated">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+updated
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Methods</h3>
+<div class="method"><h4 id="addUnloaded">
+<button class="show-code">Code</button>
+int <strong>addUnloaded</strong>(<a href="../spectre/ResourceEventCallback.html">ResourceEventCallback</a> cb) <a class="anchor-link" href="#addUnloaded"
+              title="Permalink to ResourceEvents.addUnloaded">#</a></h4>
+<div class="doc">
+<pre class="source">
+int addUnloaded(ResourceEventCallback cb) {
+ unloaded.add(cb);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="addUpdate">
+<button class="show-code">Code</button>
+void <strong>addUpdate</strong>(<a href="../spectre/ResourceEventCallback.html">ResourceEventCallback</a> cb) <a class="anchor-link" href="#addUpdate"
+              title="Permalink to ResourceEvents.addUpdate">#</a></h4>
+<div class="doc">
+<pre class="source">
+void addUpdate(ResourceEventCallback cb) {
+ updated.add(cb);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="removeUnloaded">
+<button class="show-code">Code</button>
+void <strong>removeUnloaded</strong>(<a href="../spectre/ResourceEventCallback.html">ResourceEventCallback</a> cb) <a class="anchor-link" href="#removeUnloaded"
+              title="Permalink to ResourceEvents.removeUnloaded">#</a></h4>
+<div class="doc">
+<pre class="source">
+void removeUnloaded(ResourceEventCallback cb) {
+ unloaded.remove(cb);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="removeUpdate">
+<button class="show-code">Code</button>
+void <strong>removeUpdate</strong>(<a href="../spectre/ResourceEventCallback.html">ResourceEventCallback</a> cb) <a class="anchor-link" href="#removeUpdate"
+              title="Permalink to ResourceEvents.removeUpdate">#</a></h4>
+<div class="doc">
+<pre class="source">
+void removeUpdate(ResourceEventCallback cb) {
+ updated.remove(cb);
+}
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        
+        <div class="footer">
+          
+        </div>
+        <script async src="../client-live-nav.js"></script>
+        </body></html>
+        

@@ -1,0 +1,324 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>CompareFunction class / spectre Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="spectre" data-type="CompareFunction">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../spectre.html">spectre</a> &rsaquo; <a href="../spectre/CompareFunction.html">CompareFunction</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+</div>
+<div class="content">
+        <h2><strong>CompareFunction</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<p>Defines comparison functions that can be chosen for stencil, or depth-buffer tests.</p>
+<pre class="source">
+class CompareFunction {
+ //---------------------------------------------------------------------
+ // Serialization names
+ //---------------------------------------------------------------------
+
+ /// Serialization name for [Always].
+ static const String _alwaysName = 'CompareFunction.Always';
+ /// Serialization name for [Equal].
+ static const String _equalName = 'CompareFunction.Equal';
+ /// Serialization name for [Greater].
+ static const String _greaterName = 'CompareFunction.Greater';
+ /// Serialization name for [GreaterEqual].
+ static const String _greaterEqualName = 'CompareFunction.GreaterEqual';
+ /// Serialization name for [Less].
+ static const String _lessName = 'CompareFunction.Less';
+ /// Serialization name for [LessEqual].
+ static const String _lessEqualName = 'CompareFunction.LessEqual';
+ /// Serialization name for [Fail].
+ static const String _failName = 'CompareFunction.Fail';
+ /// Serialization name for [NotEqual].
+ static const String _notEqualName = 'CompareFunction.NotEqual';
+
+ //---------------------------------------------------------------------
+ // Enumerations
+ //---------------------------------------------------------------------
+
+ /// Always pass the test.
+ static const int Always = WebGLRenderingContext.ALWAYS;
+ /// Accept the new pixel if its value is equal to the value of the current pixel.
+ static const int Equal = WebGLRenderingContext.EQUAL;
+ /// Accept the new pixel if its value is greater than the value of the current pixel.
+ static const int Greater = WebGLRenderingContext.GREATER;
+ /// Accept the new pixel if its value is greater than or equal to the value of the current pixel.
+ static const int GreaterEqual = WebGLRenderingContext.GEQUAL;
+ /// Accept the new pixel if its value is less than the value of the current pixel.
+ static const int Less = WebGLRenderingContext.LESS;
+ /// Accept the new pixel if its value is less than or equal to the value of the current pixel.
+ static const int LessEqual = WebGLRenderingContext.LEQUAL;
+ /// Always fail the test.
+ static const int Fail = WebGLRenderingContext.NEVER;
+ ///  Accept the new pixel if its value does not equal the value of the current pixel.
+ static const int NotEqual = WebGLRenderingContext.NOTEQUAL;
+
+ //---------------------------------------------------------------------
+ // Class methods
+ //---------------------------------------------------------------------
+
+ /// Convert from a [String] name to the corresponding [CompareFunction] enumeration.
+ static int parse(String name) {
+   switch (name) {
+     case _alwaysName      : return Always;
+     case _equalName       : return Equal;
+     case _greaterName     : return Greater;
+     case _greaterEqualName: return GreaterEqual;
+     case _lessName        : return Less;
+     case _lessEqualName   : return LessEqual;
+     case _failName        : return Fail;
+     case _notEqualName    : return NotEqual;
+   }
+
+   assert(false);
+   return Always;
+ }
+
+ /// Converts the [CompareFunction] enumeration to a [String].
+ static String stringify(int value) {
+   switch (value) {
+     case Always      : return _alwaysName;
+     case Equal       : return _equalName;
+     case Greater     : return _greaterName;
+     case GreaterEqual: return _greaterEqualName;
+     case Less        : return _lessName;
+     case LessEqual   : return _lessEqualName;
+     case Fail        : return _failName;
+     case NotEqual    : return _notEqualName;
+   }
+
+   assert(false);
+   return _alwaysName;
+ }
+
+ /// Checks whether the value is a valid enumeration.
+ ///
+ /// Should be gotten rid of when enums are supported properly.
+ static bool isValid(int value) {
+   switch (value) {
+     case Always      :
+     case Equal       :
+     case Greater     :
+     case GreaterEqual:
+     case Less        :
+     case LessEqual   :
+     case Fail        :
+     case NotEqual    : return true;
+   }
+
+   return false;
+ }
+}
+</pre>
+</div>
+<div>
+<h3>Static Properties</h3>
+<div class="field"><h4 id="Always">
+<button class="show-code">Code</button>
+const int         <strong>Always</strong> <a class="anchor-link"
+            href="#Always"
+            title="Permalink to CompareFunction.Always">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+Always = WebGLRenderingContext.ALWAYS
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Equal">
+<button class="show-code">Code</button>
+const int         <strong>Equal</strong> <a class="anchor-link"
+            href="#Equal"
+            title="Permalink to CompareFunction.Equal">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+Equal = WebGLRenderingContext.EQUAL
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Fail">
+<button class="show-code">Code</button>
+const int         <strong>Fail</strong> <a class="anchor-link"
+            href="#Fail"
+            title="Permalink to CompareFunction.Fail">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+Fail = WebGLRenderingContext.NEVER
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Greater">
+<button class="show-code">Code</button>
+const int         <strong>Greater</strong> <a class="anchor-link"
+            href="#Greater"
+            title="Permalink to CompareFunction.Greater">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+Greater = WebGLRenderingContext.GREATER
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="GreaterEqual">
+<button class="show-code">Code</button>
+const int         <strong>GreaterEqual</strong> <a class="anchor-link"
+            href="#GreaterEqual"
+            title="Permalink to CompareFunction.GreaterEqual">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+GreaterEqual = WebGLRenderingContext.GEQUAL
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Less">
+<button class="show-code">Code</button>
+const int         <strong>Less</strong> <a class="anchor-link"
+            href="#Less"
+            title="Permalink to CompareFunction.Less">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+Less = WebGLRenderingContext.LESS
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="LessEqual">
+<button class="show-code">Code</button>
+const int         <strong>LessEqual</strong> <a class="anchor-link"
+            href="#LessEqual"
+            title="Permalink to CompareFunction.LessEqual">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+LessEqual = WebGLRenderingContext.LEQUAL
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="NotEqual">
+<button class="show-code">Code</button>
+const int         <strong>NotEqual</strong> <a class="anchor-link"
+            href="#NotEqual"
+            title="Permalink to CompareFunction.NotEqual">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+NotEqual = WebGLRenderingContext.NOTEQUAL
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Static Methods</h3>
+<div class="method"><h4 id="parse">
+<button class="show-code">Code</button>
+int <strong>parse</strong>(String name) <a class="anchor-link" href="#parse"
+              title="Permalink to CompareFunction.parse">#</a></h4>
+<div class="doc">
+<p>Convert from a <code>String</code> name to the corresponding <a class="crossref" href="../spectre/CompareFunction.html">CompareFunction</a> enumeration.</p>
+<pre class="source">
+static int parse(String name) {
+ switch (name) {
+   case _alwaysName      : return Always;
+   case _equalName       : return Equal;
+   case _greaterName     : return Greater;
+   case _greaterEqualName: return GreaterEqual;
+   case _lessName        : return Less;
+   case _lessEqualName   : return LessEqual;
+   case _failName        : return Fail;
+   case _notEqualName    : return NotEqual;
+ }
+
+ assert(false);
+ return Always;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="stringify">
+<button class="show-code">Code</button>
+String <strong>stringify</strong>(int value) <a class="anchor-link" href="#stringify"
+              title="Permalink to CompareFunction.stringify">#</a></h4>
+<div class="doc">
+<p>Converts the <a class="crossref" href="../spectre/CompareFunction.html">CompareFunction</a> enumeration to a <code>String</code>.</p>
+<pre class="source">
+static String stringify(int value) {
+ switch (value) {
+   case Always      : return _alwaysName;
+   case Equal       : return _equalName;
+   case Greater     : return _greaterName;
+   case GreaterEqual: return _greaterEqualName;
+   case Less        : return _lessName;
+   case LessEqual   : return _lessEqualName;
+   case Fail        : return _failName;
+   case NotEqual    : return _notEqualName;
+ }
+
+ assert(false);
+ return _alwaysName;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="isValid">
+<button class="show-code">Code</button>
+bool <strong>isValid</strong>(int value) <a class="anchor-link" href="#isValid"
+              title="Permalink to CompareFunction.isValid">#</a></h4>
+<div class="doc">
+<p>Checks whether the value is a valid enumeration.</p>
+<p>Should be gotten rid of when enums are supported properly.</p>
+<pre class="source">
+static bool isValid(int value) {
+ switch (value) {
+   case Always      :
+   case Equal       :
+   case Greater     :
+   case GreaterEqual:
+   case Less        :
+   case LessEqual   :
+   case Fail        :
+   case NotEqual    : return true;
+ }
+
+ return false;
+}
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        
+        <div class="footer">
+          
+        </div>
+        <script async src="../client-live-nav.js"></script>
+        </body></html>
+        

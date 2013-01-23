@@ -1,0 +1,739 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>GraphicsDevice class / spectre Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="spectre" data-type="GraphicsDevice">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../spectre.html">spectre</a> &rsaquo; <a href="../spectre/GraphicsDevice.html">GraphicsDevice</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+</div>
+<div class="content">
+        <h2><strong>GraphicsDevice</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<p>Spectre GPU Device
+All GPU resources are created and destroyed through a Device.
+Each resource requires a unique name.
+An existing resource can be looked up using its name.</p>
+<pre class="source">
+class GraphicsDevice {
+ static const DeviceFormat DeviceFormatFloat1 =
+                   const DeviceFormat(WebGLRenderingContext.FLOAT, 1, false);
+ static const DeviceFormat DeviceFormatFloat2 =
+                   const DeviceFormat(WebGLRenderingContext.FLOAT, 2, false);
+ static const DeviceFormat DeviceFormatFloat3 =
+                   const DeviceFormat(WebGLRenderingContext.FLOAT, 3, false);
+ static const DeviceFormat DeviceFormatFloat4 =
+                   const DeviceFormat(WebGLRenderingContext.FLOAT, 4, false);
+
+ // Dump all children.
+ void dumpChildren() {
+   _children.forEach((child) {
+     print('${child.name} ${child.runtimeType}');
+   });
+ }
+
+ GraphicsContext _context;
+ GraphicsContext get context =&gt; _context;
+
+ GraphicsDeviceCapabilities _capabilities;
+ GraphicsDeviceCapabilities get capabilities =&gt; _capabilities;
+
+ WebGLRenderingContext _gl;
+ WebGLRenderingContext get gl =&gt; _gl;
+
+ final Set&lt;DeviceChild&gt; _children = new Set&lt;DeviceChild&gt;();
+
+ void _drawSquare(CanvasRenderingContext2D context2d, int x, int y, int w, int h) {
+   context2d.save();
+   context2d.beginPath();
+   context2d.translate(x, y);
+   context2d.fillStyle = "#656565";
+   context2d.fillRect(0, 0, w, h);
+   context2d.restore();
+ }
+
+ void _drawGrid(CanvasRenderingContext2D context2d, int width, int height, int horizSlices, int vertSlices) {
+   int sliceWidth = width ~/ horizSlices;
+   int sliceHeight = height ~/ vertSlices;
+   int sliceHalfWidth = sliceWidth ~/ 2;
+   for (int i = 0; i &lt; horizSlices; i++) {
+     for (int j = 0; j &lt; vertSlices; j++) {
+       if (j % 2 == 0) {
+         _drawSquare(context2d, i * sliceWidth, j * sliceHeight, sliceHalfWidth, sliceHeight);
+       } else {
+         _drawSquare(context2d, i * sliceWidth + sliceHalfWidth, j * sliceHeight, sliceHalfWidth, sliceHeight);
+       }
+     }
+   }
+ }
+
+ /// Constructs a GPU device
+ GraphicsDevice(WebGLRenderingContext gl) {
+   _gl = gl;
+   _context = new GraphicsContext(this);
+   _capabilities = new GraphicsDeviceCapabilities._fromContext(gl);
+   /*
+    var _fallbackTexture = createTexture2D('Device.Fallback');
+    {
+     CanvasElement canvas = new CanvasElement();
+     canvas.width = 512;
+     canvas.height = 512;
+     CanvasRenderingContext2D context2d = canvas.getContext('2d');
+     _drawGrid(context2d, 512, 512, 8, 8);
+     _fallbackTexture.uploadElement(canvas);
+     _fallbackTexture.generateMipmap();
+   }
+   */
+   RenderTarget._systemRenderTarget = createRenderTarget(
+       'SystemProvidedRenderTarget');
+   RenderTarget._systemRenderTarget._makeSystemTarget();
+ }
+
+
+ /// Deletes the device child [child].
+ void deleteDeviceChild(DeviceChild child) {
+   child._destroyDeviceState();
+   _children.remove(child);
+ }
+
+ /// Delete a list of device children [children].
+ void batchDeleteDeviceChildren(List&lt;DeviceChild&gt; children) {
+   for (DeviceChild dc in children) {
+     deleteDeviceChild(dc);
+   }
+ }
+
+ /// Create an [IndexBuffer] named [name]
+ IndexBuffer createIndexBuffer(String name) {
+   IndexBuffer ib = new IndexBuffer(name, this);
+   _children.add(ib);
+   ib._createDeviceState();
+   return ib;
+ }
+
+ /// Create a [VertexBuffer] named [name]
+ VertexBuffer createVertexBuffer(String name) {
+   VertexBuffer vb = new VertexBuffer(name, this);
+   _children.add(vb);
+   vb._createDeviceState();
+   return vb;
+ }
+
+ /// Create a [RenderBuffer] named [name]
+ RenderBuffer createRenderBuffer(String name) {
+   RenderBuffer rb = new RenderBuffer(name, this);
+   _children.add(rb);
+   rb._createDeviceState();
+   return rb;
+ }
+
+ /// Create a [RenderTarget] named [name]
+ RenderTarget createRenderTarget(String name) {
+   RenderTarget rt = new RenderTarget(name, this);
+   _children.add(rt);
+   rt._createDeviceState();
+   return rt;
+ }
+
+ /// Create a [Texture2D] named [name]
+ Texture2D createTexture2D(String name) {
+   Texture2D tex = new Texture2D(name, this);
+   _children.add(tex);
+   tex._createDeviceState();
+   return tex;
+ }
+
+ /// Create a [TextureCube] named [name].
+ TextureCube createTextureCube(String name) {
+   TextureCube tex = new TextureCube(name, this);
+   _children.add(tex);
+   tex._createDeviceState();
+   return tex;
+ }
+
+ /// Create a [VertexShader] named [name].
+ VertexShader createVertexShader(String name) {
+   VertexShader vertexShader = new VertexShader(name, this);
+   _children.add(vertexShader);
+   vertexShader._createDeviceState();
+   return vertexShader;
+ }
+
+ /// Create a [FragmentShader] named [name].
+ FragmentShader createFragmentShader(String name) {
+   FragmentShader fragmentShader = new FragmentShader(name, this);
+   _children.add(fragmentShader);
+   fragmentShader._createDeviceState();
+   return fragmentShader;
+ }
+
+ /// Create a [ShaderProgram] named [name].
+ ShaderProgram createShaderProgram(String name) {
+   ShaderProgram shaderProgram = new ShaderProgram(name, this);
+   _children.add(shaderProgram);
+   shaderProgram._createDeviceState();
+   return shaderProgram;
+ }
+
+ /// Create a [SamplerState] named [name].
+ SamplerState createSamplerState(String name) {
+   SamplerState sampler = new SamplerState(name, this);
+   _children.add(sampler);
+   sampler._createDeviceState();
+   return sampler;
+ }
+
+ /// Create a [Viewport] named [name].
+ Viewport createViewport(String name) {
+   Viewport viewport = new Viewport(name, this);
+   _children.add(viewport);
+   viewport._createDeviceState();
+   return viewport;
+ }
+
+ /// Create a [DepthState] named [name].
+ DepthState createDepthState(String name) {
+   DepthState depthState = new DepthState(name, this);
+   _children.add(depthState);
+   depthState._createDeviceState();
+   return depthState;
+ }
+
+ /// Create a [BlendState] named [name].
+ BlendState createBlendState(String name) {
+   BlendState blendState = new BlendState(name, this);
+   _children.add(blendState);
+   blendState._createDeviceState();
+   return blendState;
+ }
+
+ /// Create a [RasterizerState] named [name].
+ RasterizerState createRasterizerState(String name) {
+   RasterizerState rasterizerState = new RasterizerState(name, this);
+   _children.add(rasterizerState);
+   rasterizerState._createDeviceState();
+   return rasterizerState;
+ }
+
+ /// Create an [InputLayout] named [name].
+ InputLayout createInputLayout(String name) {
+   InputLayout il = new InputLayout(name, this);
+   _children.add(il);
+   il._createDeviceState();
+   return il;
+ }
+
+ /// Create a [SingleArrayMesh] named [name].
+ SingleArrayMesh createSingleArrayMesh(String name) {
+   SingleArrayMesh arrayMesh = new SingleArrayMesh(name, this);
+   _children.add(arrayMesh);
+   arrayMesh._createDeviceState();
+   return arrayMesh;
+ }
+
+ /// Create a [SingleArrayIndexedMesh] named [name].
+ SingleArrayIndexedMesh createSingleArrayIndexedMesh(String name) {
+   SingleArrayIndexedMesh indexedMesh = new SingleArrayIndexedMesh(name, this);
+   _children.add(indexedMesh);
+   indexedMesh._createDeviceState();
+   return indexedMesh;
+ }
+}
+</pre>
+</div>
+<div>
+<h3>Static Properties</h3>
+<div class="field"><h4 id="DeviceFormatFloat1">
+<button class="show-code">Code</button>
+const <a href="../spectre/DeviceFormat.html">DeviceFormat</a>         <strong>DeviceFormatFloat1</strong> <a class="anchor-link"
+            href="#DeviceFormatFloat1"
+            title="Permalink to GraphicsDevice.DeviceFormatFloat1">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+DeviceFormatFloat1 =
+const DeviceFormat(WebGLRenderingContext.FLOAT, 1, false)
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="DeviceFormatFloat2">
+<button class="show-code">Code</button>
+const <a href="../spectre/DeviceFormat.html">DeviceFormat</a>         <strong>DeviceFormatFloat2</strong> <a class="anchor-link"
+            href="#DeviceFormatFloat2"
+            title="Permalink to GraphicsDevice.DeviceFormatFloat2">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+DeviceFormatFloat2 =
+const DeviceFormat(WebGLRenderingContext.FLOAT, 2, false)
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="DeviceFormatFloat3">
+<button class="show-code">Code</button>
+const <a href="../spectre/DeviceFormat.html">DeviceFormat</a>         <strong>DeviceFormatFloat3</strong> <a class="anchor-link"
+            href="#DeviceFormatFloat3"
+            title="Permalink to GraphicsDevice.DeviceFormatFloat3">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+DeviceFormatFloat3 =
+const DeviceFormat(WebGLRenderingContext.FLOAT, 3, false)
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="DeviceFormatFloat4">
+<button class="show-code">Code</button>
+const <a href="../spectre/DeviceFormat.html">DeviceFormat</a>         <strong>DeviceFormatFloat4</strong> <a class="anchor-link"
+            href="#DeviceFormatFloat4"
+            title="Permalink to GraphicsDevice.DeviceFormatFloat4">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+DeviceFormatFloat4 =
+const DeviceFormat(WebGLRenderingContext.FLOAT, 4, false)
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="GraphicsDevice">
+<button class="show-code">Code</button>
+new <strong>GraphicsDevice</strong>(WebGLRenderingContext gl) <a class="anchor-link" href="#GraphicsDevice"
+              title="Permalink to GraphicsDevice.GraphicsDevice">#</a></h4>
+<div class="doc">
+<p>Constructs a GPU device</p>
+<pre class="source">
+GraphicsDevice(WebGLRenderingContext gl) {
+ _gl = gl;
+ _context = new GraphicsContext(this);
+ _capabilities = new GraphicsDeviceCapabilities._fromContext(gl);
+ /*
+  var _fallbackTexture = createTexture2D('Device.Fallback');
+  {
+   CanvasElement canvas = new CanvasElement();
+   canvas.width = 512;
+   canvas.height = 512;
+   CanvasRenderingContext2D context2d = canvas.getContext('2d');
+   _drawGrid(context2d, 512, 512, 8, 8);
+   _fallbackTexture.uploadElement(canvas);
+   _fallbackTexture.generateMipmap();
+ }
+ */
+ RenderTarget._systemRenderTarget = createRenderTarget(
+     'SystemProvidedRenderTarget');
+ RenderTarget._systemRenderTarget._makeSystemTarget();
+}
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Properties</h3>
+<div class="field"><h4 id="capabilities">
+<button class="show-code">Code</button>
+final <a href="../spectre/GraphicsDeviceCapabilities.html">GraphicsDeviceCapabilities</a>         <strong>capabilities</strong> <a class="anchor-link"
+            href="#capabilities"
+            title="Permalink to GraphicsDevice.capabilities">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+GraphicsDeviceCapabilities get capabilities =&gt; _capabilities;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="context">
+<button class="show-code">Code</button>
+final <a href="../spectre/GraphicsContext.html">GraphicsContext</a>         <strong>context</strong> <a class="anchor-link"
+            href="#context"
+            title="Permalink to GraphicsDevice.context">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+GraphicsContext get context =&gt; _context;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="gl">
+<button class="show-code">Code</button>
+final WebGLRenderingContext         <strong>gl</strong> <a class="anchor-link"
+            href="#gl"
+            title="Permalink to GraphicsDevice.gl">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+WebGLRenderingContext get gl =&gt; _gl;
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Methods</h3>
+<div class="method"><h4 id="batchDeleteDeviceChildren">
+<button class="show-code">Code</button>
+void <strong>batchDeleteDeviceChildren</strong>(List&lt;<a href="../spectre/DeviceChild.html">DeviceChild</a>&gt; children) <a class="anchor-link" href="#batchDeleteDeviceChildren"
+              title="Permalink to GraphicsDevice.batchDeleteDeviceChildren">#</a></h4>
+<div class="doc">
+<p>Delete a list of device children 
+<span class="param">children</span>.</p>
+<pre class="source">
+void batchDeleteDeviceChildren(List&lt;DeviceChild&gt; children) {
+ for (DeviceChild dc in children) {
+   deleteDeviceChild(dc);
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="createBlendState">
+<button class="show-code">Code</button>
+<a href="../spectre/BlendState.html">BlendState</a> <strong>createBlendState</strong>(String name) <a class="anchor-link" href="#createBlendState"
+              title="Permalink to GraphicsDevice.createBlendState">#</a></h4>
+<div class="doc">
+<p>Create a <a class="crossref" href="../spectre/BlendState.html">BlendState</a> named 
+<span class="param">name</span>.</p>
+<pre class="source">
+BlendState createBlendState(String name) {
+ BlendState blendState = new BlendState(name, this);
+ _children.add(blendState);
+ blendState._createDeviceState();
+ return blendState;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="createDepthState">
+<button class="show-code">Code</button>
+<a href="../spectre/DepthState.html">DepthState</a> <strong>createDepthState</strong>(String name) <a class="anchor-link" href="#createDepthState"
+              title="Permalink to GraphicsDevice.createDepthState">#</a></h4>
+<div class="doc">
+<p>Create a <a class="crossref" href="../spectre/DepthState.html">DepthState</a> named 
+<span class="param">name</span>.</p>
+<pre class="source">
+DepthState createDepthState(String name) {
+ DepthState depthState = new DepthState(name, this);
+ _children.add(depthState);
+ depthState._createDeviceState();
+ return depthState;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="createFragmentShader">
+<button class="show-code">Code</button>
+<a href="../spectre/FragmentShader.html">FragmentShader</a> <strong>createFragmentShader</strong>(String name) <a class="anchor-link" href="#createFragmentShader"
+              title="Permalink to GraphicsDevice.createFragmentShader">#</a></h4>
+<div class="doc">
+<p>Create a <a class="crossref" href="../spectre/FragmentShader.html">FragmentShader</a> named 
+<span class="param">name</span>.</p>
+<pre class="source">
+FragmentShader createFragmentShader(String name) {
+ FragmentShader fragmentShader = new FragmentShader(name, this);
+ _children.add(fragmentShader);
+ fragmentShader._createDeviceState();
+ return fragmentShader;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="createIndexBuffer">
+<button class="show-code">Code</button>
+<a href="../spectre/IndexBuffer.html">IndexBuffer</a> <strong>createIndexBuffer</strong>(String name) <a class="anchor-link" href="#createIndexBuffer"
+              title="Permalink to GraphicsDevice.createIndexBuffer">#</a></h4>
+<div class="doc">
+<p>Create an <a class="crossref" href="../spectre/IndexBuffer.html">IndexBuffer</a> named 
+<span class="param">name</span></p>
+<pre class="source">
+IndexBuffer createIndexBuffer(String name) {
+ IndexBuffer ib = new IndexBuffer(name, this);
+ _children.add(ib);
+ ib._createDeviceState();
+ return ib;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="createInputLayout">
+<button class="show-code">Code</button>
+<a href="../spectre/InputLayout.html">InputLayout</a> <strong>createInputLayout</strong>(String name) <a class="anchor-link" href="#createInputLayout"
+              title="Permalink to GraphicsDevice.createInputLayout">#</a></h4>
+<div class="doc">
+<p>Create an <a class="crossref" href="../spectre/InputLayout.html">InputLayout</a> named 
+<span class="param">name</span>.</p>
+<pre class="source">
+InputLayout createInputLayout(String name) {
+ InputLayout il = new InputLayout(name, this);
+ _children.add(il);
+ il._createDeviceState();
+ return il;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="createRasterizerState">
+<button class="show-code">Code</button>
+<a href="../spectre/RasterizerState.html">RasterizerState</a> <strong>createRasterizerState</strong>(String name) <a class="anchor-link" href="#createRasterizerState"
+              title="Permalink to GraphicsDevice.createRasterizerState">#</a></h4>
+<div class="doc">
+<p>Create a <a class="crossref" href="../spectre/RasterizerState.html">RasterizerState</a> named 
+<span class="param">name</span>.</p>
+<pre class="source">
+RasterizerState createRasterizerState(String name) {
+ RasterizerState rasterizerState = new RasterizerState(name, this);
+ _children.add(rasterizerState);
+ rasterizerState._createDeviceState();
+ return rasterizerState;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="createRenderBuffer">
+<button class="show-code">Code</button>
+<a href="../spectre/RenderBuffer.html">RenderBuffer</a> <strong>createRenderBuffer</strong>(String name) <a class="anchor-link" href="#createRenderBuffer"
+              title="Permalink to GraphicsDevice.createRenderBuffer">#</a></h4>
+<div class="doc">
+<p>Create a <a class="crossref" href="../spectre/RenderBuffer.html">RenderBuffer</a> named 
+<span class="param">name</span></p>
+<pre class="source">
+RenderBuffer createRenderBuffer(String name) {
+ RenderBuffer rb = new RenderBuffer(name, this);
+ _children.add(rb);
+ rb._createDeviceState();
+ return rb;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="createRenderTarget">
+<button class="show-code">Code</button>
+<a href="../spectre/RenderTarget.html">RenderTarget</a> <strong>createRenderTarget</strong>(String name) <a class="anchor-link" href="#createRenderTarget"
+              title="Permalink to GraphicsDevice.createRenderTarget">#</a></h4>
+<div class="doc">
+<p>Create a <a class="crossref" href="../spectre/RenderTarget.html">RenderTarget</a> named 
+<span class="param">name</span></p>
+<pre class="source">
+RenderTarget createRenderTarget(String name) {
+ RenderTarget rt = new RenderTarget(name, this);
+ _children.add(rt);
+ rt._createDeviceState();
+ return rt;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="createSamplerState">
+<button class="show-code">Code</button>
+<a href="../spectre/SamplerState.html">SamplerState</a> <strong>createSamplerState</strong>(String name) <a class="anchor-link" href="#createSamplerState"
+              title="Permalink to GraphicsDevice.createSamplerState">#</a></h4>
+<div class="doc">
+<p>Create a <a class="crossref" href="../spectre/SamplerState.html">SamplerState</a> named 
+<span class="param">name</span>.</p>
+<pre class="source">
+SamplerState createSamplerState(String name) {
+ SamplerState sampler = new SamplerState(name, this);
+ _children.add(sampler);
+ sampler._createDeviceState();
+ return sampler;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="createShaderProgram">
+<button class="show-code">Code</button>
+<a href="../spectre/ShaderProgram.html">ShaderProgram</a> <strong>createShaderProgram</strong>(String name) <a class="anchor-link" href="#createShaderProgram"
+              title="Permalink to GraphicsDevice.createShaderProgram">#</a></h4>
+<div class="doc">
+<p>Create a <a class="crossref" href="../spectre/ShaderProgram.html">ShaderProgram</a> named 
+<span class="param">name</span>.</p>
+<pre class="source">
+ShaderProgram createShaderProgram(String name) {
+ ShaderProgram shaderProgram = new ShaderProgram(name, this);
+ _children.add(shaderProgram);
+ shaderProgram._createDeviceState();
+ return shaderProgram;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="createSingleArrayIndexedMesh">
+<button class="show-code">Code</button>
+<a href="../spectre/SingleArrayIndexedMesh.html">SingleArrayIndexedMesh</a> <strong>createSingleArrayIndexedMesh</strong>(String name) <a class="anchor-link" href="#createSingleArrayIndexedMesh"
+              title="Permalink to GraphicsDevice.createSingleArrayIndexedMesh">#</a></h4>
+<div class="doc">
+<p>Create a <a class="crossref" href="../spectre/SingleArrayIndexedMesh.html">SingleArrayIndexedMesh</a> named 
+<span class="param">name</span>.</p>
+<pre class="source">
+SingleArrayIndexedMesh createSingleArrayIndexedMesh(String name) {
+ SingleArrayIndexedMesh indexedMesh = new SingleArrayIndexedMesh(name, this);
+ _children.add(indexedMesh);
+ indexedMesh._createDeviceState();
+ return indexedMesh;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="createSingleArrayMesh">
+<button class="show-code">Code</button>
+<a href="../spectre/SingleArrayMesh.html">SingleArrayMesh</a> <strong>createSingleArrayMesh</strong>(String name) <a class="anchor-link" href="#createSingleArrayMesh"
+              title="Permalink to GraphicsDevice.createSingleArrayMesh">#</a></h4>
+<div class="doc">
+<p>Create a <a class="crossref" href="../spectre/SingleArrayMesh.html">SingleArrayMesh</a> named 
+<span class="param">name</span>.</p>
+<pre class="source">
+SingleArrayMesh createSingleArrayMesh(String name) {
+ SingleArrayMesh arrayMesh = new SingleArrayMesh(name, this);
+ _children.add(arrayMesh);
+ arrayMesh._createDeviceState();
+ return arrayMesh;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="createTexture2D">
+<button class="show-code">Code</button>
+<a href="../spectre/Texture2D.html">Texture2D</a> <strong>createTexture2D</strong>(String name) <a class="anchor-link" href="#createTexture2D"
+              title="Permalink to GraphicsDevice.createTexture2D">#</a></h4>
+<div class="doc">
+<p>Create a <a class="crossref" href="../spectre/Texture2D.html">Texture2D</a> named 
+<span class="param">name</span></p>
+<pre class="source">
+Texture2D createTexture2D(String name) {
+ Texture2D tex = new Texture2D(name, this);
+ _children.add(tex);
+ tex._createDeviceState();
+ return tex;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="createTextureCube">
+<button class="show-code">Code</button>
+<a href="../spectre/TextureCube.html">TextureCube</a> <strong>createTextureCube</strong>(String name) <a class="anchor-link" href="#createTextureCube"
+              title="Permalink to GraphicsDevice.createTextureCube">#</a></h4>
+<div class="doc">
+<p>Create a <a class="crossref" href="../spectre/TextureCube.html">TextureCube</a> named 
+<span class="param">name</span>.</p>
+<pre class="source">
+TextureCube createTextureCube(String name) {
+ TextureCube tex = new TextureCube(name, this);
+ _children.add(tex);
+ tex._createDeviceState();
+ return tex;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="createVertexBuffer">
+<button class="show-code">Code</button>
+<a href="../spectre/VertexBuffer.html">VertexBuffer</a> <strong>createVertexBuffer</strong>(String name) <a class="anchor-link" href="#createVertexBuffer"
+              title="Permalink to GraphicsDevice.createVertexBuffer">#</a></h4>
+<div class="doc">
+<p>Create a <a class="crossref" href="../spectre/VertexBuffer.html">VertexBuffer</a> named 
+<span class="param">name</span></p>
+<pre class="source">
+VertexBuffer createVertexBuffer(String name) {
+ VertexBuffer vb = new VertexBuffer(name, this);
+ _children.add(vb);
+ vb._createDeviceState();
+ return vb;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="createVertexShader">
+<button class="show-code">Code</button>
+<a href="../spectre/VertexShader.html">VertexShader</a> <strong>createVertexShader</strong>(String name) <a class="anchor-link" href="#createVertexShader"
+              title="Permalink to GraphicsDevice.createVertexShader">#</a></h4>
+<div class="doc">
+<p>Create a <a class="crossref" href="../spectre/VertexShader.html">VertexShader</a> named 
+<span class="param">name</span>.</p>
+<pre class="source">
+VertexShader createVertexShader(String name) {
+ VertexShader vertexShader = new VertexShader(name, this);
+ _children.add(vertexShader);
+ vertexShader._createDeviceState();
+ return vertexShader;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="createViewport">
+<button class="show-code">Code</button>
+<a href="../spectre/Viewport.html">Viewport</a> <strong>createViewport</strong>(String name) <a class="anchor-link" href="#createViewport"
+              title="Permalink to GraphicsDevice.createViewport">#</a></h4>
+<div class="doc">
+<p>Create a <a class="crossref" href="../spectre/Viewport.html">Viewport</a> named 
+<span class="param">name</span>.</p>
+<pre class="source">
+Viewport createViewport(String name) {
+ Viewport viewport = new Viewport(name, this);
+ _children.add(viewport);
+ viewport._createDeviceState();
+ return viewport;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="deleteDeviceChild">
+<button class="show-code">Code</button>
+void <strong>deleteDeviceChild</strong>(<a href="../spectre/DeviceChild.html">DeviceChild</a> child) <a class="anchor-link" href="#deleteDeviceChild"
+              title="Permalink to GraphicsDevice.deleteDeviceChild">#</a></h4>
+<div class="doc">
+<p>Deletes the device child 
+<span class="param">child</span>.</p>
+<pre class="source">
+void deleteDeviceChild(DeviceChild child) {
+ child._destroyDeviceState();
+ _children.remove(child);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="dumpChildren">
+<button class="show-code">Code</button>
+void <strong>dumpChildren</strong>() <a class="anchor-link" href="#dumpChildren"
+              title="Permalink to GraphicsDevice.dumpChildren">#</a></h4>
+<div class="doc">
+<pre class="source">
+void dumpChildren() {
+ _children.forEach((child) {
+   print('${child.name} ${child.runtimeType}');
+ });
+}
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        
+        <div class="footer">
+          
+        </div>
+        <script async src="../client-live-nav.js"></script>
+        </body></html>
+        

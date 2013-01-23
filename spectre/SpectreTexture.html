@@ -1,0 +1,491 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>SpectreTexture class / spectre Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="spectre" data-type="SpectreTexture">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../spectre.html">spectre</a> &rsaquo; <a href="../spectre/SpectreTexture.html">SpectreTexture</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+</div>
+<div class="content">
+        <h2><strong>SpectreTexture</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<pre class="source">
+class SpectreTexture extends DeviceChild {
+ //static const int FormatR = WebGLRenderingContext.RED;
+ //static const int FormatRG = WebGLRenderingContext.RG;
+ static const int FormatRGB = WebGLRenderingContext.RGB;
+ static const int FormatRGBA = WebGLRenderingContext.RGBA;
+ static const int FormatDepth = WebGLRenderingContext.DEPTH_COMPONENT;
+
+ static String formatToString(int format) {
+   /*
+   if (format == FormatR) {
+     return 'R';
+   }
+   if (format == FormatRG) {
+     return 'RG';
+   }*/
+   if (format == FormatRGB) {
+     return 'RGB';
+   }
+   if (format == FormatRGBA) {
+     return 'RGBA';
+   }
+   if (format == FormatDepth) {
+     return 'Depth';
+   }
+   assert(false);
+ }
+
+ static int stringToFormat(String format) {
+   /*
+   if (format == 'R') {
+     return FormatR;
+   }
+   if (format == 'RG') {
+     return FormatRG;
+   }*/
+   if (format == 'RGB') {
+     return FormatRGB;
+   }
+   if (format == 'RGBA') {
+     return FormatRGBA;
+   }
+   if (format == 'Depth') {
+     return FormatDepth;
+   }
+   assert(false);
+ }
+
+ static const int PixelTypeU8 = WebGLRenderingContext.UNSIGNED_BYTE;
+ static const int PixelTypeU16 = WebGLRenderingContext.UNSIGNED_SHORT;
+ static const int PixelTypeU32 = WebGLRenderingContext.UNSIGNED_INT;
+ static const int PixelTypeS8 = WebGLRenderingContext.BYTE;
+ static const int PixelTypeS16 = WebGLRenderingContext.SHORT;
+ static const int PixelTypeS32 = WebGLRenderingContext.INT;
+ static const int PixelTypeFloat = WebGLRenderingContext.FLOAT;
+
+ int _width = 0;
+ int get width =&gt; _width;
+ int _height = 0;
+ int get height =&gt; _height;
+ int _textureFormat = FormatRGBA;
+ /** Retrieve the internal format used for this texture */
+ int get textureFormat =&gt; _textureFormat;
+
+ /** Set the internal format used for this texture.
+  *
+  * NOTE: Will not take affect until next upload.
+  */
+ set textureFormat(int internalFormat) {
+   _textureFormat = internalFormat;
+ }
+
+ final int _bindTarget;
+ final int _bindingParam;
+ final int _textureTarget;
+ WebGLTexture _deviceTexture;
+
+ /** Bind this texture and return the previously bound texture. */
+ WebGLTexture _pushBind() {
+   WebGLTexture oldBind = device.gl.getParameter(_bindingParam);
+   device.gl.bindTexture(_bindTarget, _deviceTexture);
+   return oldBind;
+ }
+
+ /** Rebind [oldBind] */
+ void _popBind(WebGLTexture oldBind) {
+   device.gl.bindTexture(_bindTarget, oldBind);
+ }
+
+ SpectreTexture(String name, GraphicsDevice device, this._bindTarget,
+                this._bindingParam, this._textureTarget)
+     : super._internal(name, device);
+
+ void _applySampler(SamplerState sampler) {
+   device.gl.texParameteri(_textureTarget,
+                           WebGLRenderingContext.TEXTURE_WRAP_S,
+                           sampler.wrapS);
+   device.gl.texParameteri(_textureTarget,
+                           WebGLRenderingContext.TEXTURE_WRAP_T,
+                           sampler.wrapT);
+   device.gl.texParameteri(_textureTarget,
+                           WebGLRenderingContext.TEXTURE_MIN_FILTER,
+                           sampler.minFilter);
+   device.gl.texParameteri(_textureTarget,
+                           WebGLRenderingContext.TEXTURE_MAG_FILTER,
+                           sampler.magFilter);
+ }
+
+ /** Binds the texture to [unit]. */
+ void _bind(int unit) {
+   // TODO(johnmccutchan): Check # texture units and throw exception when
+   // unit is out of range.
+   device.gl.activeTexture(unit);
+   device.gl.bindTexture(_bindTarget, _deviceTexture);
+ }
+
+ void _createDeviceState() {
+   _deviceTexture = device.gl.createTexture();
+ }
+
+ void _destroyDeviceState() {
+   if (_deviceTexture != null) {
+     device.gl.deleteTexture(_deviceTexture);
+   }
+   _deviceTexture = null;
+ }
+}
+</pre>
+</div>
+<h3>Extends</h3>
+<p>
+<span class="type-box"><span class="icon-class"></span><a href="../spectre/DeviceChild.html">DeviceChild</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>SpectreTexture</strong></span></p>
+<h3>Subclasses</h3>
+<p>
+<span class="type-box"><span class="icon-class"></span><a href="../spectre/Texture2D.html">Texture2D</a></span>, <span class="type-box"><span class="icon-class"></span><a href="../spectre/TextureCube.html">TextureCube</a></span></p>
+<div>
+<h3>Static Properties</h3>
+<div class="field"><h4 id="FormatDepth">
+<button class="show-code">Code</button>
+const int         <strong>FormatDepth</strong> <a class="anchor-link"
+            href="#FormatDepth"
+            title="Permalink to SpectreTexture.FormatDepth">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+FormatDepth = WebGLRenderingContext.DEPTH_COMPONENT
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="FormatRGB">
+<button class="show-code">Code</button>
+const int         <strong>FormatRGB</strong> <a class="anchor-link"
+            href="#FormatRGB"
+            title="Permalink to SpectreTexture.FormatRGB">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+FormatRGB = WebGLRenderingContext.RGB
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="FormatRGBA">
+<button class="show-code">Code</button>
+const int         <strong>FormatRGBA</strong> <a class="anchor-link"
+            href="#FormatRGBA"
+            title="Permalink to SpectreTexture.FormatRGBA">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+FormatRGBA = WebGLRenderingContext.RGBA
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="PixelTypeFloat">
+<button class="show-code">Code</button>
+const int         <strong>PixelTypeFloat</strong> <a class="anchor-link"
+            href="#PixelTypeFloat"
+            title="Permalink to SpectreTexture.PixelTypeFloat">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+PixelTypeFloat = WebGLRenderingContext.FLOAT
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="PixelTypeS16">
+<button class="show-code">Code</button>
+const int         <strong>PixelTypeS16</strong> <a class="anchor-link"
+            href="#PixelTypeS16"
+            title="Permalink to SpectreTexture.PixelTypeS16">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+PixelTypeS16 = WebGLRenderingContext.SHORT
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="PixelTypeS32">
+<button class="show-code">Code</button>
+const int         <strong>PixelTypeS32</strong> <a class="anchor-link"
+            href="#PixelTypeS32"
+            title="Permalink to SpectreTexture.PixelTypeS32">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+PixelTypeS32 = WebGLRenderingContext.INT
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="PixelTypeS8">
+<button class="show-code">Code</button>
+const int         <strong>PixelTypeS8</strong> <a class="anchor-link"
+            href="#PixelTypeS8"
+            title="Permalink to SpectreTexture.PixelTypeS8">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+PixelTypeS8 = WebGLRenderingContext.BYTE
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="PixelTypeU16">
+<button class="show-code">Code</button>
+const int         <strong>PixelTypeU16</strong> <a class="anchor-link"
+            href="#PixelTypeU16"
+            title="Permalink to SpectreTexture.PixelTypeU16">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+PixelTypeU16 = WebGLRenderingContext.UNSIGNED_SHORT
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="PixelTypeU32">
+<button class="show-code">Code</button>
+const int         <strong>PixelTypeU32</strong> <a class="anchor-link"
+            href="#PixelTypeU32"
+            title="Permalink to SpectreTexture.PixelTypeU32">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+PixelTypeU32 = WebGLRenderingContext.UNSIGNED_INT
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="PixelTypeU8">
+<button class="show-code">Code</button>
+const int         <strong>PixelTypeU8</strong> <a class="anchor-link"
+            href="#PixelTypeU8"
+            title="Permalink to SpectreTexture.PixelTypeU8">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+PixelTypeU8 = WebGLRenderingContext.UNSIGNED_BYTE
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Static Methods</h3>
+<div class="method"><h4 id="formatToString">
+<button class="show-code">Code</button>
+String <strong>formatToString</strong>(int format) <a class="anchor-link" href="#formatToString"
+              title="Permalink to SpectreTexture.formatToString">#</a></h4>
+<div class="doc">
+<pre class="source">
+static String formatToString(int format) {
+ /*
+ if (format == FormatR) {
+   return 'R';
+ }
+ if (format == FormatRG) {
+   return 'RG';
+ }*/
+ if (format == FormatRGB) {
+   return 'RGB';
+ }
+ if (format == FormatRGBA) {
+   return 'RGBA';
+ }
+ if (format == FormatDepth) {
+   return 'Depth';
+ }
+ assert(false);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="stringToFormat">
+<button class="show-code">Code</button>
+int <strong>stringToFormat</strong>(String format) <a class="anchor-link" href="#stringToFormat"
+              title="Permalink to SpectreTexture.stringToFormat">#</a></h4>
+<div class="doc">
+<pre class="source">
+static int stringToFormat(String format) {
+ /*
+ if (format == 'R') {
+   return FormatR;
+ }
+ if (format == 'RG') {
+   return FormatRG;
+ }*/
+ if (format == 'RGB') {
+   return FormatRGB;
+ }
+ if (format == 'RGBA') {
+   return FormatRGBA;
+ }
+ if (format == 'Depth') {
+   return FormatDepth;
+ }
+ assert(false);
+}
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="SpectreTexture">
+<button class="show-code">Code</button>
+new <strong>SpectreTexture</strong>(String name, <a href="../spectre/GraphicsDevice.html">GraphicsDevice</a> device, int _bindTarget, int _bindingParam, int _textureTarget) <a class="anchor-link" href="#SpectreTexture"
+              title="Permalink to SpectreTexture.SpectreTexture">#</a></h4>
+<div class="doc">
+<pre class="source">
+SpectreTexture(String name, GraphicsDevice device, this._bindTarget,
+              this._bindingParam, this._textureTarget)
+   : super._internal(name, device);
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Properties</h3>
+<div class="field inherited"><h4 id="device">
+<button class="show-code">Code</button>
+final <a href="../spectre/GraphicsDevice.html">GraphicsDevice</a>         <strong>device</strong> <a class="anchor-link"
+            href="#device"
+            title="Permalink to SpectreTexture.device">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../spectre/DeviceChild.html">DeviceChild</a> </div><div class="doc">
+<pre class="source">
+device
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="height">
+<button class="show-code">Code</button>
+final int         <strong>height</strong> <a class="anchor-link"
+            href="#height"
+            title="Permalink to SpectreTexture.height">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+int get height =&gt; _height;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="name">
+<button class="show-code">Code</button>
+final String         <strong>name</strong> <a class="anchor-link"
+            href="#name"
+            title="Permalink to SpectreTexture.name">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../spectre/DeviceChild.html">DeviceChild</a> </div><div class="doc">
+<pre class="source">
+name
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="textureFormat">
+<button class="show-code">Code</button>
+int <strong>get textureFormat</strong> <a class="anchor-link" href="#textureFormat"
+              title="Permalink to SpectreTexture.get textureFormat">#</a></h4>
+<div class="doc">
+<p>Retrieve the internal format used for this texture </p>
+<pre class="source">
+int get textureFormat =&gt; _textureFormat;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="textureFormat=">
+<button class="show-code">Code</button>
+<strong>set textureFormat</strong>(int internalFormat) <a class="anchor-link" href="#textureFormat="
+              title="Permalink to SpectreTexture.set textureFormat">#</a></h4>
+<div class="doc">
+<p>Set the internal format used for this texture.</p>
+<p>NOTE: Will not take affect until next upload.</p>
+<pre class="source">
+set textureFormat(int internalFormat) {
+ _textureFormat = internalFormat;
+}
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="width">
+<button class="show-code">Code</button>
+final int         <strong>width</strong> <a class="anchor-link"
+            href="#width"
+            title="Permalink to SpectreTexture.width">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+int get width =&gt; _width;
+</pre>
+</div>
+</div>
+</div>
+<div class="inherited">
+<h3>Methods</h3>
+<div class="method inherited"><h4 id="fromJson">
+<button class="show-code">Code</button>
+void <strong>fromJson</strong>(a) <a class="anchor-link" href="#fromJson"
+              title="Permalink to SpectreTexture.fromJson">#</a></h4>
+<div class="inherited-from">inherited from <a href="../spectre/DeviceChild.html">DeviceChild</a> </div><div class="doc">
+<pre class="source">
+void fromJson(dynamic a) {
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="toJson">
+<button class="show-code">Code</button>
+<strong>toJson</strong>() <a class="anchor-link" href="#toJson"
+              title="Permalink to SpectreTexture.toJson">#</a></h4>
+<div class="inherited-from">inherited from <a href="../spectre/DeviceChild.html">DeviceChild</a> </div><div class="doc">
+<pre class="source">
+dynamic toJson() {
+ return '';
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="toString">
+<button class="show-code">Code</button>
+String <strong>toString</strong>() <a class="anchor-link" href="#toString"
+              title="Permalink to SpectreTexture.toString">#</a></h4>
+<div class="inherited-from">inherited from <a href="../spectre/DeviceChild.html">DeviceChild</a> </div><div class="doc">
+<div class="inherited">
+<p>Returns a string representation of this object.</p>
+<div class="docs-inherited-from">docs inherited from Object </div></div>
+<pre class="source">
+String toString() =&gt; name;
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        
+        <div class="footer">
+          
+        </div>
+        <script async src="../client-live-nav.js"></script>
+        </body></html>
+        

@@ -1,0 +1,528 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>AssetManager class / asset_pack Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="asset_pack" data-type="AssetManager">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../asset_pack.html">asset_pack</a> &rsaquo; <a href="../asset_pack/AssetManager.html">AssetManager</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+</div>
+<div class="content">
+        <h2><strong>AssetManager</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<pre class="source">
+class AssetManager extends PropertyMap {
+ /** A map from asset type to importers. Add your own importers. */
+ final Map&lt;String, AssetImporter&gt; importers = new Map&lt;String, AssetImporter&gt;();
+ /** A map from asset type to loader. Add your own loaders. */
+ final Map&lt;String, AssetLoader&gt; loaders = new Map&lt;String, AssetLoader&gt;();
+
+ AssetManager() {
+   importers['json'] = new AssetImporterJson();
+   importers['text'] = new AssetImporterText();
+   loaders['json'] = new AssetLoaderText();
+   loaders['text'] = loaders['json'];
+ }
+
+ /** Register a pack with [name] and load the contents from [url].
+  * The future will complete to [null] if the asset pack cannot be loaded. */
+ Future&lt;AssetPack&gt; loadPack(String name, String url) {
+   AssetPack assetPack = new AssetPack(this, name);
+   if (containsKey(name)) {
+     throw new ArgumentError('Already have a pack loaded with name: $name');
+   }
+   Completer&lt;AssetPack&gt; completer = new Completer&lt;AssetPack&gt;();
+   assetPack._load(url).then((assetPack) {
+     if (assetPack.loadedSuccessfully == true) {
+       this[name] = assetPack;
+       completer.complete(assetPack);
+     } else {
+       completer.complete(null);
+     }
+   });
+   return completer.future;
+ }
+
+ /** Load many packs at once. Results in a single Future to wait on.:
+  *
+  * [['packName', 'packUrl.pack'], ['packName2', 'packUrl2.pack']]
+  */
+ Future loadPacks(List&lt;List&lt;String&gt;&gt; packs) {
+   if (packs == null) {
+     return new Future.immediate(null);
+   }
+   var futurePacks = new List&lt;Future&lt;AssetPack&gt;&gt;();
+   packs.forEach((pack) {
+     String name = pack[0];
+     String url = pack[1];
+     var futurePack = loadPack(name, url);
+     futurePacks.add(futurePack);
+   });
+   return Futures.wait(futurePacks);
+ }
+
+ /** Unload pack with [name]. */
+ void unloadPack(String name) {
+   AssetPack assetPack = this[name];
+   if (assetPack == null) {
+     return;
+   }
+   remove(name);
+   assetPack._unload();
+ }
+}
+</pre>
+</div>
+<h3>Extends</h3>
+<p>
+<span class="type-box"><span class="icon-class"></span><a href="../property_map/PropertyContainer.html">PropertyContainer</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../property_map/PropertyMap.html">PropertyMap</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>AssetManager</strong></span></p>
+<div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="AssetManager">
+<button class="show-code">Code</button>
+new <strong>AssetManager</strong>() <a class="anchor-link" href="#AssetManager"
+              title="Permalink to AssetManager.AssetManager">#</a></h4>
+<div class="doc">
+<pre class="source">
+AssetManager() {
+ importers['json'] = new AssetImporterJson();
+ importers['text'] = new AssetImporterText();
+ loaders['json'] = new AssetLoaderText();
+ loaders['text'] = loaders['json'];
+}
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Properties</h3>
+<div class="field"><h4 id="importers">
+<button class="show-code">Code</button>
+final Map&lt;String, <a href="../asset_pack/AssetImporter.html">AssetImporter</a>&gt;         <strong>importers</strong> <a class="anchor-link"
+            href="#importers"
+            title="Permalink to AssetManager.importers">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+importers = new Map&lt;String, AssetImporter&gt;()
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="isEmpty">
+<button class="show-code">Code</button>
+final bool         <strong>isEmpty</strong> <a class="anchor-link"
+            href="#isEmpty"
+            title="Permalink to AssetManager.isEmpty">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../property_map/PropertyMap.html">PropertyMap</a> </div><div class="doc">
+<div class="inherited">
+<p>Returns true if there is no {key, value} pair in the map.</p>
+<div class="docs-inherited-from">docs inherited from Map&lt;String, dynamic&gt; </div></div>
+<pre class="source">
+bool get isEmpty =&gt; _objectData.isEmpty;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="keys">
+<button class="show-code">Code</button>
+final Collection&lt;String&gt;         <strong>keys</strong> <a class="anchor-link"
+            href="#keys"
+            title="Permalink to AssetManager.keys">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../property_map/PropertyMap.html">PropertyMap</a> </div><div class="doc">
+<div class="inherited">
+<p>The keys of <code>this</code>.</p>
+<div class="docs-inherited-from">docs inherited from Map&lt;String, dynamic&gt; </div></div>
+<pre class="source">
+Collection&lt;String&gt; get keys =&gt; _objectData.keys;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="length">
+<button class="show-code">Code</button>
+final int         <strong>length</strong> <a class="anchor-link"
+            href="#length"
+            title="Permalink to AssetManager.length">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../property_map/PropertyMap.html">PropertyMap</a> </div><div class="doc">
+<div class="inherited">
+<p>The number of {key, value} pairs in the map.</p>
+<div class="docs-inherited-from">docs inherited from Map&lt;String, dynamic&gt; </div></div>
+<pre class="source">
+int get length =&gt; _objectData.length;
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="loaders">
+<button class="show-code">Code</button>
+final Map&lt;String, <a href="../asset_pack/AssetLoader.html">AssetLoader</a>&gt;         <strong>loaders</strong> <a class="anchor-link"
+            href="#loaders"
+            title="Permalink to AssetManager.loaders">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+loaders = new Map&lt;String, AssetLoader&gt;()
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="values">
+<button class="show-code">Code</button>
+final Collection&lt;dynamic&gt;         <strong>values</strong> <a class="anchor-link"
+            href="#values"
+            title="Permalink to AssetManager.values">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../property_map/PropertyMap.html">PropertyMap</a> </div><div class="doc">
+<div class="inherited">
+<p>The values of <code>this</code>.</p>
+<div class="docs-inherited-from">docs inherited from Map&lt;String, dynamic&gt; </div></div>
+<pre class="source">
+Collection&lt;dynamic&gt; get values =&gt; _objectData.values;
+</pre>
+</div>
+</div>
+</div>
+<div class="inherited">
+<h3>Operators</h3>
+<div class="method inherited"><h4 id="[]">
+<button class="show-code">Code</button>
+<strong>operator []</strong>(String key) <a class="anchor-link" href="#[]"
+              title="Permalink to AssetManager.operator []">#</a></h4>
+<div class="inherited-from">inherited from <a href="../property_map/PropertyMap.html">PropertyMap</a> </div><div class="doc">
+<div class="inherited">
+<p>Returns the value for the given 
+<span class="param">key</span> or null if 
+<span class="param">key</span> is not
+in the map. Because null values are supported, one should either
+use containsKey to distinguish between an absent key and a null
+value, or use the <code>putIfAbsent</code> method.</p>
+<div class="docs-inherited-from">docs inherited from Map&lt;String, dynamic&gt; </div></div>
+<pre class="source">
+operator [](String key) =&gt; _objectData[key];
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="[]=">
+<button class="show-code">Code</button>
+<strong>operator []=</strong>(String key, value) <a class="anchor-link" href="#[]="
+              title="Permalink to AssetManager.operator []=">#</a></h4>
+<div class="inherited-from">inherited from <a href="../property_map/PropertyMap.html">PropertyMap</a> </div><div class="doc">
+<div class="inherited">
+<p>Associates the 
+<span class="param">key</span> with the given 
+<span class="param">value</span>.</p>
+<div class="docs-inherited-from">docs inherited from Map&lt;String, dynamic&gt; </div></div>
+<pre class="source">
+operator []=(String key, dynamic value) {
+ _objectData[key] = _validate(value);
+}
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Methods</h3>
+<div class="method inherited"><h4 id="clear">
+<button class="show-code">Code</button>
+<strong>clear</strong>() <a class="anchor-link" href="#clear"
+              title="Permalink to AssetManager.clear">#</a></h4>
+<div class="inherited-from">inherited from <a href="../property_map/PropertyMap.html">PropertyMap</a> </div><div class="doc">
+<div class="inherited">
+<p>Removes all pairs from the map.</p>
+<div class="docs-inherited-from">docs inherited from Map&lt;String, dynamic&gt; </div></div>
+<pre class="source">
+clear() =&gt; _objectData.clear();
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="containsKey">
+<button class="show-code">Code</button>
+bool <strong>containsKey</strong>(String key) <a class="anchor-link" href="#containsKey"
+              title="Permalink to AssetManager.containsKey">#</a></h4>
+<div class="inherited-from">inherited from <a href="../property_map/PropertyMap.html">PropertyMap</a> </div><div class="doc">
+<div class="inherited">
+<p>Returns whether this map contains the given 
+<span class="param">key</span>.</p>
+<div class="docs-inherited-from">docs inherited from Map&lt;String, dynamic&gt; </div></div>
+<pre class="source">
+bool containsKey(String key) =&gt; _objectData.containsKey(key);
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="containsValue">
+<button class="show-code">Code</button>
+bool <strong>containsValue</strong>(value) <a class="anchor-link" href="#containsValue"
+              title="Permalink to AssetManager.containsValue">#</a></h4>
+<div class="inherited-from">inherited from <a href="../property_map/PropertyMap.html">PropertyMap</a> </div><div class="doc">
+<div class="inherited">
+<p>Returns whether this map contains the given 
+<span class="param">value</span>.</p>
+<div class="docs-inherited-from">docs inherited from Map&lt;String, dynamic&gt; </div></div>
+<pre class="source">
+bool containsValue(dynamic value) =&gt; _objectData.containsValue(value);
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="forEach">
+<button class="show-code">Code</button>
+<strong>forEach</strong>(func(String key, value)) <a class="anchor-link" href="#forEach"
+              title="Permalink to AssetManager.forEach">#</a></h4>
+<div class="inherited-from">inherited from <a href="../property_map/PropertyMap.html">PropertyMap</a> </div><div class="doc">
+<div class="inherited">
+<p>Applies <code>f</code> to each {key, value} pair of the map.</p>
+<div class="docs-inherited-from">docs inherited from Map&lt;String, dynamic&gt; </div></div>
+<pre class="source">
+forEach(func(String key, dynamic value)) =&gt; _objectData.forEach(func);
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="fromJson">
+<button class="show-code">Code</button>
+void <strong>fromJson</strong>(json) <a class="anchor-link" href="#fromJson"
+              title="Permalink to AssetManager.fromJson">#</a></h4>
+<div class="inherited-from">inherited from <a href="../property_map/PropertyMap.html">PropertyMap</a> </div><div class="doc">
+<p>Deserialize.</p>
+<pre class="source">
+void fromJson(dynamic json) {
+ assert(json is Map);
+ _objectData = new Map.from(json);
+ for (var key in _objectData.keys) {
+   assert(key is String);
+   _objectData[key] = _validate(_objectData[key]);
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="loadPack">
+<button class="show-code">Code</button>
+<strong>loadPack</strong>(String name, String url) <a class="anchor-link" href="#loadPack"
+              title="Permalink to AssetManager.loadPack">#</a></h4>
+<div class="doc">
+<p>Register a pack with 
+<span class="param">name</span> and load the contents from 
+<span class="param">url</span>.
+The future will complete to <code>null</code> if the asset pack cannot be loaded. </p>
+<pre class="source">
+Future&lt;AssetPack&gt; loadPack(String name, String url) {
+ AssetPack assetPack = new AssetPack(this, name);
+ if (containsKey(name)) {
+   throw new ArgumentError('Already have a pack loaded with name: $name');
+ }
+ Completer&lt;AssetPack&gt; completer = new Completer&lt;AssetPack&gt;();
+ assetPack._load(url).then((assetPack) {
+   if (assetPack.loadedSuccessfully == true) {
+     this[name] = assetPack;
+     completer.complete(assetPack);
+   } else {
+     completer.complete(null);
+   }
+ });
+ return completer.future;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="loadPacks">
+<button class="show-code">Code</button>
+<strong>loadPacks</strong>(List&lt;List&lt;String&gt;&gt; packs) <a class="anchor-link" href="#loadPacks"
+              title="Permalink to AssetManager.loadPacks">#</a></h4>
+<div class="doc">
+<p>Load many packs at once. Results in a single Future to wait on.:</p>
+<p>[['packName', 'packUrl.pack'], ['packName2', 'packUrl2.pack']]</p>
+<pre class="source">
+Future loadPacks(List&lt;List&lt;String&gt;&gt; packs) {
+ if (packs == null) {
+   return new Future.immediate(null);
+ }
+ var futurePacks = new List&lt;Future&lt;AssetPack&gt;&gt;();
+ packs.forEach((pack) {
+   String name = pack[0];
+   String url = pack[1];
+   var futurePack = loadPack(name, url);
+   futurePacks.add(futurePack);
+ });
+ return Futures.wait(futurePacks);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="noSuchMethod">
+<button class="show-code">Code</button>
+<strong>noSuchMethod</strong>(InvocationMirror mirror) <a class="anchor-link" href="#noSuchMethod"
+              title="Permalink to AssetManager.noSuchMethod">#</a></h4>
+<div class="inherited-from">inherited from <a href="../property_map/PropertyMap.html">PropertyMap</a> </div><div class="doc">
+<p>Implementing noSuchMethod allows invocations on this object in a more
+natural way:
+ - print(data.propertyName);
+ - data.propertyName = value;
+instead of:
+ - print(data.get('propertyName'));
+ - data.set('propertyName', value);</p>
+<pre class="source">
+noSuchMethod(InvocationMirror mirror) {
+ if (mirror.isGetter) {
+   dynamic value = this[mirror.memberName];
+   if (value != null) {
+     return value;
+   }
+ } else if (mirror.isSetter) {
+   dynamic value = mirror.positionalArguments[0];
+   this[mirror.memberName] = value;
+   return value;
+ }
+
+ //if we get here, then we've not found it - throw.
+ print("Not found: ${mirror.memberName}");
+ print("IsGetter: ${mirror.isGetter}");
+ print("IsSetter: ${mirror.isGetter}");
+ print("isAccessor: ${mirror.isAccessor}");
+ super.noSuchMethod(mirror);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="putIfAbsent">
+<button class="show-code">Code</button>
+<strong>putIfAbsent</strong>(String key, ifAbsent()) <a class="anchor-link" href="#putIfAbsent"
+              title="Permalink to AssetManager.putIfAbsent">#</a></h4>
+<div class="inherited-from">inherited from <a href="../property_map/PropertyMap.html">PropertyMap</a> </div><div class="doc">
+<div class="inherited">
+<p>If 
+<span class="param">key</span> is not associated to a value, calls 
+<span class="param">ifAbsent</span> and
+updates the map by mapping 
+<span class="param">key</span> to the value returned by
+
+<span class="param">ifAbsent</span>. Returns the value in the map.</p>
+<div class="docs-inherited-from">docs inherited from Map&lt;String, dynamic&gt; </div></div>
+<pre class="source">
+putIfAbsent(String key,ifAbsent()) {
+ _objectData.putIfAbsent(key, () {
+   _validate(ifAbsent());
+ });
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="remove">
+<button class="show-code">Code</button>
+<strong>remove</strong>(String key) <a class="anchor-link" href="#remove"
+              title="Permalink to AssetManager.remove">#</a></h4>
+<div class="inherited-from">inherited from <a href="../property_map/PropertyMap.html">PropertyMap</a> </div><div class="doc">
+<div class="inherited">
+<p>Removes the association for the given 
+<span class="param">key</span>. Returns the value for
+
+<span class="param">key</span> in the map or null if 
+<span class="param">key</span> is not in the map. Note that values
+can be null and a returned null value does not always imply that the
+key is absent.</p>
+<div class="docs-inherited-from">docs inherited from Map&lt;String, dynamic&gt; </div></div>
+<pre class="source">
+remove(String key) =&gt; _objectData.remove(key);
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="toJson">
+<button class="show-code">Code</button>
+String <strong>toJson</strong>() <a class="anchor-link" href="#toJson"
+              title="Permalink to AssetManager.toJson">#</a></h4>
+<div class="inherited-from">inherited from <a href="../property_map/PropertyMap.html">PropertyMap</a> </div><div class="doc">
+<p>Serialize.</p>
+<pre class="source">
+String toJson() {
+ var buffer = new StringBuffer();
+ buffer.add('{');
+ var first = true;
+ for (var key in _objectData.keys) {
+   first ? first = false : buffer.add(',');
+   buffer.add('"${key}":');
+   var value = _objectData[key];
+   if (value is num || value is bool) {
+     buffer.add(value);
+   }
+   else if (value is String) {
+     buffer.add('"${value}"');
+   }
+   else if (value is Serializable) {
+     buffer.add(value.toJson());
+   }
+   else {
+     var mirror = reflect(value);
+     throw 'Unexpected value found on a PropertyMap. Type found: '
+     '${mirror.type.simpleName}.';
+   }
+ }
+ buffer.add('}');
+ return buffer.toString();
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="toString">
+<button class="show-code">Code</button>
+String <strong>toString</strong>() <a class="anchor-link" href="#toString"
+              title="Permalink to AssetManager.toString">#</a></h4>
+<div class="inherited-from">inherited from <a href="../property_map/PropertyMap.html">PropertyMap</a> </div><div class="doc">
+<div class="inherited">
+<p>Returns a string representation of this object.</p>
+<div class="docs-inherited-from">docs inherited from Object </div></div>
+<pre class="source">
+String toString() {
+ return 'PropertyMap:${_objectData.toString()}';
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="unloadPack">
+<button class="show-code">Code</button>
+void <strong>unloadPack</strong>(String name) <a class="anchor-link" href="#unloadPack"
+              title="Permalink to AssetManager.unloadPack">#</a></h4>
+<div class="doc">
+<p>Unload pack with 
+<span class="param">name</span>. </p>
+<pre class="source">
+void unloadPack(String name) {
+ AssetPack assetPack = this[name];
+ if (assetPack == null) {
+   return;
+ }
+ remove(name);
+ assetPack._unload();
+}
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        
+        <div class="footer">
+          
+        </div>
+        <script async src="../client-live-nav.js"></script>
+        </body></html>
+        

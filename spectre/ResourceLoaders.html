@@ -1,0 +1,141 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>ResourceLoaders class / spectre Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="spectre" data-type="ResourceLoaders">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../spectre.html">spectre</a> &rsaquo; <a href="../spectre/ResourceLoaders.html">ResourceLoaders</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+</div>
+<div class="content">
+        <h2><strong>ResourceLoaders</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<pre class="source">
+class ResourceLoaders {
+ static String urlExtension(String URL) {
+   List&lt;String&gt; chunks = URL.split('.');
+   if (chunks.length &gt; 0) {
+     return chunks.last;
+   }
+   return '';
+ }
+
+ List&lt;_ResourceLoader&gt; _resourceLoaders;
+
+ ResourceLoaders() {
+   _resourceLoaders = new List();
+   _resourceLoaders.add(new _ImageResourceLoader());
+   _resourceLoaders.add(new _ShaderResourceLoader());
+   _resourceLoaders.add(new _MeshResourceLoader());
+   _resourceLoaders.add(new _PackResourceLoader());
+   _resourceLoaders.add(new _ShaderProgramResourceLoader());
+   _resourceLoaders.add(new _RenderConfigResourceLoader());
+   _resourceLoaders.add(new _SceneResourceLoader());
+ }
+
+ _ResourceLoader findResourceLoader(String URL) {
+   String extension = urlExtension(URL);
+   for (_ResourceLoader loader in _resourceLoaders) {
+     if (loader.canLoad(URL, extension)) {
+       return loader;
+     }
+   }
+   return null;
+ }
+}
+</pre>
+</div>
+<div>
+<h3>Static Methods</h3>
+<div class="method"><h4 id="urlExtension">
+<button class="show-code">Code</button>
+String <strong>urlExtension</strong>(String URL) <a class="anchor-link" href="#urlExtension"
+              title="Permalink to ResourceLoaders.urlExtension">#</a></h4>
+<div class="doc">
+<pre class="source">
+static String urlExtension(String URL) {
+ List&lt;String&gt; chunks = URL.split('.');
+ if (chunks.length &gt; 0) {
+   return chunks.last;
+ }
+ return '';
+}
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="ResourceLoaders">
+<button class="show-code">Code</button>
+new <strong>ResourceLoaders</strong>() <a class="anchor-link" href="#ResourceLoaders"
+              title="Permalink to ResourceLoaders.ResourceLoaders">#</a></h4>
+<div class="doc">
+<pre class="source">
+ResourceLoaders() {
+ _resourceLoaders = new List();
+ _resourceLoaders.add(new _ImageResourceLoader());
+ _resourceLoaders.add(new _ShaderResourceLoader());
+ _resourceLoaders.add(new _MeshResourceLoader());
+ _resourceLoaders.add(new _PackResourceLoader());
+ _resourceLoaders.add(new _ShaderProgramResourceLoader());
+ _resourceLoaders.add(new _RenderConfigResourceLoader());
+ _resourceLoaders.add(new _SceneResourceLoader());
+}
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Methods</h3>
+<div class="method"><h4 id="findResourceLoader">
+<button class="show-code">Code</button>
+<a href="../spectre/_ResourceLoader.html">_ResourceLoader</a> <strong>findResourceLoader</strong>(String URL) <a class="anchor-link" href="#findResourceLoader"
+              title="Permalink to ResourceLoaders.findResourceLoader">#</a></h4>
+<div class="doc">
+<pre class="source">
+_ResourceLoader findResourceLoader(String URL) {
+ String extension = urlExtension(URL);
+ for (_ResourceLoader loader in _resourceLoaders) {
+   if (loader.canLoad(URL, extension)) {
+     return loader;
+   }
+ }
+ return null;
+}
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        
+        <div class="footer">
+          
+        </div>
+        <script async src="../client-live-nav.js"></script>
+        </body></html>
+        
